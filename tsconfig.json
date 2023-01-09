@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    // compilation
+    "target": "es6",
+    "outDir": "./lib",
+    "rootDir": "./src",
+    // modules
+    "module": "commonjs",
+    "esModuleInterop": true,
+    // rules
+    "useDefineForClassFields": true,
+    "strict": true,
+    "useUnknownInCatchVariables": true,
+    "noUnusedLocals": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true
+  },
+  "exclude": ["node_modules", "**/*.spec.ts"]
+}
