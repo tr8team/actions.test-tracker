@@ -1,8 +1,8 @@
 {
-  "name": "typescript-action",
+  "name": "github-action-test-tracker",
   "version": "0.0.0",
   "private": true,
-  "description": "TypeScript template action",
+  "description": "GitHub action to track test results and metadata in Pull Requests",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tr8team/typescript-github-action-template.git"
+    "url": "git+https://github.com/tr8team/test-tracker.git"
   },
   "keywords": [
     "actions",
     "node",
-    "setup"
+    "test"
   ],
-  "author": "",
+  "author": "kirinnee",
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.10.0"
