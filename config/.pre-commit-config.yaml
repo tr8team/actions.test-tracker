@@ -31,6 +31,7 @@ repos:
         name: Lint TypeScript and JavaScript files
         entry: eslint -c ./config/.eslintrc.js --fix
         files: ^(src|tests)/.*\.(js|ts|json|jsx|tsx)$
+        exclude: ^.*\.spec\.ts$
         pass_filenames: true
         language: system
 
@@ -76,14 +77,6 @@ repos:
         entry: prettier -w
         files: ^.*\.json$
         exclude: ^.*node_modules.*$
-        pass_filenames: true
-        language: system
-
-      - id: nodefmt
-        name: Format TypeScript and Javascript with prettier
-        entry: prettier --config ./config/.prettierrc -w
-        files: ^.*\.(js|ts|jsx|tsx)$
-        exclude: ^(node_modules/.*|dist/.*)$
         pass_filenames: true
         language: system
 

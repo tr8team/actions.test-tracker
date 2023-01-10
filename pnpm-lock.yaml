@@ -12,6 +12,7 @@ specifiers:
   chai: ^4.3.7
   chai-as-promised: ^7.1.1
   eslint: ^8.31.0
+  eslint-config-prettier: ^8.6.0
   eslint-plugin-github: ^4.6.0
   js-yaml: ^4.1.0
   mocha: ^10.2.0
@@ -22,12 +23,14 @@ specifiers:
   superstruct: ^1.0.3
   ts-async-results: ^0.6.0
   ts-node: ^10.9.1
+  ts-results: ^3.3.0
   typescript: ^4.9.4
 
 dependencies:
   "@actions/core": 1.10.0
   superstruct: 1.0.3
   ts-async-results: 0.6.0
+  ts-results: 3.3.0
 
 devDependencies:
   "@istanbuljs/nyc-config-typescript": 1.0.2_nyc@15.1.0
@@ -40,6 +43,7 @@ devDependencies:
   chai: 4.3.7
   chai-as-promised: 7.1.1_chai@4.3.7
   eslint: 8.31.0
+  eslint-config-prettier: 8.6.0_eslint@8.31.0
   eslint-plugin-github: 4.6.0_iukboom6ndih5an6iafl45j2fe
   js-yaml: 4.1.0
   mocha: 10.2.0

@@ -14,7 +14,6 @@ tasks:
       - md
       - yaml
       - json
-      - node
       - nix
   eof:
     desc: Fixes end of file
@@ -58,12 +57,6 @@ tasks:
       - task: util:pc
         vars:
           PC_ID: jsonfmt
-  node:
-    desc: Formats all node related files, Typescript and Javascript
-    cmds:
-      - task: util:pc
-        vars:
-          PC_ID: nodefmt
   nix:
     desc: Formats Nix files
     cmds:

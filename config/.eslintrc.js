@@ -7,7 +7,6 @@ module.exports = {
     "plugin:github/recommended",
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "prettier",
   ],
   overrides: [],
   ignorePatterns: ["**/*.spec.ts"],
@@ -17,7 +16,7 @@ module.exports = {
     sourceType: "module",
     project: "./tsconfig.json",
   },
-  plugins: ["@typescript-eslint", "prettier"],
+  plugins: ["@typescript-eslint"],
   rules: {
     "i18n-text/no-en": "off",
     "eslint-comments/no-use": "off",
