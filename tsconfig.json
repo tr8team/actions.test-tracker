@@ -8,6 +8,8 @@
     "module": "commonjs",
     "esModuleInterop": true,
     // rules
+    "strictPropertyInitialization": true,
+
     "useDefineForClassFields": true,
     "strict": true,
     "useUnknownInCatchVariables": true,
