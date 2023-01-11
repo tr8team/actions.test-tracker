@@ -12,16 +12,18 @@ type ActionOutput = { [k: string]: Command[] };
 
 type ActionInput = {
   relativePath: string[];
-  input: { [k: string]: string };
+  input?: { [k: string]: string };
 };
 
 export function emulateAction({
   relativePath,
   input,
 }: ActionInput): ActionOutput {
-  for (const key in input) {
-    if (input.hasOwnProperty(key)) {
-      process.env[`INPUT_${key.replace(/ /g, "_").toUpperCase()}`] = input[key];
+  if(input != null) {
+    for (const key in input) {
+      if (input.hasOwnProperty(key)) {
+        process.env[`INPUT_${key.replace(/ /g, "_").toUpperCase()}`] = input[key];
+      }
     }
   }
   const ip = path.join(__dirname, "..", "..", ...relativePath);
@@ -39,6 +41,10 @@ export function emulateAction({
     .filter((x) => x.length !== 0);
   return [...stdout, ...stderr]
     .map((str) => {
+
+      if(!str.startsWith("::")) {
+        return { command: "info", meta: {}, content: str };
+      }
       const [, metaString, content] = /::(.*?)::(.*)/.exec(str) as unknown as [
         string,
         string,

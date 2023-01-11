@@ -1,8 +1,8 @@
-import { GithubActionIo } from "../../../src/external/github-action-io";
+import { GithubActionIO } from "../../../../src/external/github-action-i-o";
 import { debug, setFailed } from "@actions/core";
 import { boolean, Infer, number, object, string } from "superstruct";
 
-const action = new GithubActionIo();
+const action = new GithubActionIO();
 
 const person = object({
   name: string(),

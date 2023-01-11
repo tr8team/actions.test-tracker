@@ -4,7 +4,7 @@ import { Struct, StructError } from "superstruct";
 import { getInput, setOutput } from "@actions/core";
 import { parseJSON, toResult } from "../lib/util";
 
-class GithubActionIo implements ActionIO {
+class GithubActionIO implements ActionIO {
   get(key: string): string {
     return getInput(key);
   }
@@ -30,4 +30,4 @@ class GithubActionIo implements ActionIO {
   }
 }
 
-export { GithubActionIo };
+export { GithubActionIO };

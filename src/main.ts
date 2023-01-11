@@ -1,9 +1,9 @@
 import { debug, setFailed, setOutput } from "@actions/core";
 import { ActionIO } from "./lib/io";
-import { GithubActionIo } from "./external/github-action-io";
+import { GithubActionIO } from "./external/github-action-i-o";
 import { inputArray } from "./lib/inputs";
 
-const io: ActionIO = new GithubActionIo();
+const io: ActionIO = new GithubActionIO();
 
 const dataArray = io.getObject("data", inputArray);
 const gistId = io.get("gist_id");

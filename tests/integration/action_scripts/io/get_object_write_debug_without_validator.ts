@@ -1,7 +1,7 @@
-import { GithubActionIo } from "../../../src/external/github-action-io";
+import { GithubActionIO } from "../../../../src/external/github-action-i-o";
 import { debug, setFailed } from "@actions/core";
 
-const action = new GithubActionIo();
+const action = new GithubActionIO();
 
 const p = action.getObject<object>("person");
 

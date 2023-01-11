@@ -4,7 +4,7 @@ import { actionScripts, emulateAction } from "./helper";
 
 should();
 
-describe("GithubActionIo for ActionIO", function() {
+describe("GithubActionIO for ActionIO", function() {
 
   describe("get", function() {
     it("should retrieve action input values", function() {
@@ -27,7 +27,7 @@ describe("GithubActionIo for ActionIO", function() {
       }
       // act
       const output = emulateAction({
-        relativePath: [...actionScripts, "get_write_debug.ts"],
+        relativePath: [...actionScripts, "io", "get_write_debug.ts"],
         input,
       });
 
@@ -37,8 +37,6 @@ describe("GithubActionIo for ActionIO", function() {
     it("should return empty string if no input is placed", function() {
       it("should retrieve action input values", function() {
         // arrange
-        const input = {
-        };
         const expected = {
           "debug": [
             {
@@ -53,8 +51,7 @@ describe("GithubActionIo for ActionIO", function() {
         }
         // act
         const output = emulateAction({
-          relativePath: [...actionScripts, "get_write_debug.ts"],
-          input,
+          relativePath: [...actionScripts, "io", "get_write_debug.ts"],
         });
 
         // assert
@@ -80,7 +77,7 @@ describe("GithubActionIo for ActionIO", function() {
         }
         // act
         const output = emulateAction({
-          relativePath: [...actionScripts, "get_object_write_debug.ts"],
+          relativePath: [...actionScripts, "io", "get_object_write_debug.ts"],
           input,
         });
 
@@ -102,7 +99,7 @@ describe("GithubActionIo for ActionIO", function() {
         }
         // act
         const output = emulateAction({
-          relativePath: [...actionScripts, "get_object_write_debug.ts"],
+          relativePath: [...actionScripts, "io", "get_object_write_debug.ts"],
           input,
         });
 
@@ -140,7 +137,7 @@ describe("GithubActionIo for ActionIO", function() {
         }
         // act
         const output = emulateAction({
-          relativePath: [...actionScripts, "get_object_write_debug.ts"],
+          relativePath: [...actionScripts, "io", "get_object_write_debug.ts"],
           input,
         });
 
@@ -164,7 +161,7 @@ describe("GithubActionIo for ActionIO", function() {
         }
         // act
         const output = emulateAction({
-          relativePath: [...actionScripts, "get_object_write_debug_without_validator.ts"],
+          relativePath: [...actionScripts, "io", "get_object_write_debug_without_validator.ts"],
           input,
         });
 
@@ -186,7 +183,7 @@ describe("GithubActionIo for ActionIO", function() {
         }
         // act
         const output = emulateAction({
-          relativePath: [...actionScripts, "get_object_write_debug_without_validator.ts"],
+          relativePath: [...actionScripts, "io", "get_object_write_debug_without_validator.ts"],
           input,
         });
 
@@ -210,8 +207,7 @@ describe("GithubActionIo for ActionIO", function() {
         }
       ;
       const output = emulateAction({
-        relativePath: [...actionScripts, "set_string_output.ts"],
-        input: {},
+        relativePath: [...actionScripts,"io",  "set_string_output.ts"],
       });
       output.should.deep.equal(expected);
     });
@@ -228,8 +224,7 @@ describe("GithubActionIo for ActionIO", function() {
         }
       ;
       const output = emulateAction({
-        relativePath: [...actionScripts, "set_empty_string_output.ts"],
-        input: {},
+        relativePath: [...actionScripts, "io", "set_empty_string_output.ts"],
       });
       output.should.deep.equal(expected);
     });
@@ -249,8 +244,7 @@ describe("GithubActionIo for ActionIO", function() {
         }
       ;
       const output = emulateAction({
-        relativePath: [...actionScripts, "set_object_output.ts"],
-        input: {},
+        relativePath: [...actionScripts, "io", "set_object_output.ts"],
       });
       output.should.deep.equal(expected);
     });
