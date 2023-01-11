@@ -31,7 +31,7 @@ repos:
         name: Lint TypeScript and JavaScript files
         entry: eslint -c ./config/.eslintrc.js --fix
         files: ^(src|tests)/.*\.(js|ts|json|jsx|tsx)$
-        exclude: ^.*\.spec\.ts$
+        exclude: ^tests/.*$
         pass_filenames: true
         language: system
 

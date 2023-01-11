@@ -2,10 +2,20 @@ name: "Test Tracker"
 description: "GitHub action to track test results and metadata in Pull Requests"
 author: "kirinnee"
 inputs:
-  milliseconds: # change this
+  data: # change this
     required: true
-    description: "input description here"
-    default: "default value if applicable"
+    description: "Test Data to Persist"
+    default: "[]"
+  gist_id:
+    required: true
+    description: "Gist ID to use as persistent store"
+  github_token:
+    required: true
+    description: "GitHub action token with Gist Permission"
+  pr_number:
+    required: false
+    description: "PR Number"
+
 runs:
   using: "node16"
   main: "dist/index.js"

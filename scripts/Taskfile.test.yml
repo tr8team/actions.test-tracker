@@ -4,48 +4,94 @@ tasks:
   default:
     desc: Run all tests
     cmds:
-      - mocha --config ./config/.mocharc.js
+      - task: unit
   watch:
-    desc: Run all tests with auto-reload
+    desc: Run unit tests with auto-reload
     cmds:
-      - mocha --config ./config/.mocharc.js --watch --reporter min
-  cover:
-    desc: Run all tests and generate coverage
-    cmds:
-      - nyc --nycrc-path ./config/.nycrc.text.json mocha --config ./config/.mocharc.js
+      - task: unit:watch
 
-  report:
-    desc: Generate all reports for tests
+  # Unit Tests
+
+  unit:
+    desc: Run unit tests
+    interactive: true
+    cmds:
+      - mocha --config ./config/tests/unit/mocharc.js
+
+  unit:watch:
+    desc: Run unit tests with auto-reload
+    interactive: true
+    cmds:
+      - mocha --config ./config/tests/unit/mocharc.js --watch --reporter nyan
+
+  unit:cover:
+    desc: Run unit test and generate coverage
+    interactive: true
+    cmds:
+      - nyc --nycrc-path ./config/tests/unit/nyc.cli.config.js mocha --config ./config/tests/unit/mocharc.js
+  unit:report:json:
+    desc: Generate unit test test report in JSON
+    ignore_error: true
+    cmds:
+      - mocha --config ./config/tests/unit/mocharc.json.js
+  unit:report:html:
+    desc: Generate unit test test report in HTML
+    ignore_error: true
+    cmds:
+      - mocha --config ./config/tests/unit/mocharc.html.js
+  unit:report:cover:
+    desc: Generate unit test coverage reports
+    cmds:
+      - nyc --nycrc-path ./config/tests/unit/nyc.report.config.js mocha --config ./config/tests/unit/mocharc.js
+  unit:report:
+    desc: Generate all unit test related reports
     deps:
-      - report:json
-      - report:xml
-      - report:html
+      - unit:report:json
+      - unit:report:html
     cmds:
-      - task: report:cover
+      - task: unit:report:cover
 
-  report:json:
+  # Integration tests
+  int:
+    desc: Run integration tests
+    interactive: true
+    cmds:
+      - mocha --config ./config/tests/integration/mocharc.js
+
+  int:watch:
+    desc: Run integration tests with auto-reload
+    interactive: true
+    cmds:
+      - mocha --config ./config/tests/integration/mocharc.js --watch --reporter nyan
+
+  int:cover:
+    desc: Run integration test and generate coverage
+    interactive: true
+    cmds:
+      - nyc --nycrc-path ./config/tests/integration/nyc.cli.config.js mocha --config ./config/tests/integration/mocharc.js
+  int:report:json:
+    desc: Generate integration test test report in JSON
     ignore_error: true
-    desc: Generate test report in JSON
     cmds:
-      - mocha --config ./config/.mocharc.json.js
-
-  report:xml:
+      - mocha --config ./config/tests/integration/mocharc.json.js
+  int:report:html:
+    desc: Generate unit test test report in HTML
     ignore_error: true
-    desc: Generate test report in Junit XML format
     cmds:
-      - mocha --config ./config/.mocharc.xml.js
-
-  report:html:
-    ignore_error: true
-    desc: Generate test report in HTML format
+      - mocha --config ./config/tests/integration/mocharc.html.js
+  int:report:cover:
+    desc: Generate unit test coverage reports
     cmds:
-      - mocha --config ./config/.mocharc.html.js
-
-  report:cover:
-    desc: Generate test coverage report in lcov and HTML format
+      - nyc --nycrc-path ./config/tests/integration/nyc.report.config.js mocha --config ./config/tests/unit/mocharc.js
+  int:report:
+    desc: Generate all integration test related reports
+    deps:
+      - int:report:json
+      - int:report:html
     cmds:
-      - nyc --nycrc-path config/.nycrc.report.json mocha --config ./config/.mocharc.js
+      - task: int:report:cover
 
+  # util
   clean:
     desc: Cleans up ephemeral test artifacts
     ignore_error: true

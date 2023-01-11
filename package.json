@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "package": "ncc build --source-map --license licenses.txt",
-    "test": "mocha --config ./config/.mocharc.js"
+    "test": "mocha --config config/tests/unit/.mocharc.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,8 @@
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.10.0",
+    "@actions/github": "^5.1.1",
+    "@octokit/action": "^4.0.10",
     "superstruct": "^1.0.3",
     "ts-async-results": "^0.6.0",
     "ts-results": "^3.3.0"
@@ -37,11 +39,9 @@
     "chai": "^4.3.7",
     "chai-as-promised": "^7.1.1",
     "eslint": "^8.31.0",
-    "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-github": "^4.6.0",
     "js-yaml": "^4.1.0",
     "mocha": "^10.2.0",
-    "mocha-junit-reporter": "^2.2.0",
     "mochawesome": "^7.1.3",
     "nyc": "^15.1.0",
     "prettier": "2.8.2",

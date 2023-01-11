@@ -1,0 +1,14 @@
+{
+  "acceptable": {
+    "lines": 75,
+    "functions": 75,
+    "statements": 75,
+    "branches": 75
+  },
+  "goal": {
+    "lines": 90,
+    "functions": 90,
+    "statements": 90,
+    "branches": 90
+  }
+}

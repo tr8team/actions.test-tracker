@@ -1,4 +1,12 @@
-import { Infer, literal, number, object, string, union } from "superstruct";
+import {
+  array,
+  Infer,
+  literal,
+  number,
+  object,
+  string,
+  union,
+} from "superstruct";
 
 const testCoverageMetadata = object({
   type: literal("test-coverage"),
@@ -37,6 +45,9 @@ const input = object({
   data: metadata,
 });
 
-type Input = Infer<typeof input>;
+const inputArray = array(input);
 
-export { metadata, input, Input };
+type Input = Infer<typeof input>;
+type InputArray = Infer<typeof inputArray>;
+
+export { metadata, input, Input, inputArray, InputArray };

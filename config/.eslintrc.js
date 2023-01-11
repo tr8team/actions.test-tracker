@@ -9,7 +9,7 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
   ],
   overrides: [],
-  ignorePatterns: ["**/*.spec.ts"],
+  ignorePatterns: ["tests/**/*.*"],
   parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaVersion: 9,
