@@ -1,6 +1,9 @@
 import { GithubActionIO } from "../../../../src/external/github-action-i-o";
 import { debug, setFailed } from "@actions/core";
-import { boolean, Infer, number, object, string } from "superstruct";
+import { boolean, z, number, object, string } from "zod";
+import { ZodValidatorAdapter } from "../../../../src/lib/adapters/zod-validator-adapter";
+import { Validator } from "../../../../src/lib/interface/validator";
+import { Some } from "@hqoss/monads";
 
 const action = new GithubActionIO();
 
@@ -16,11 +19,14 @@ const person = object({
   }),
 });
 
-type Person = Infer<typeof person>;
+type Person = z.infer<typeof person>;
 
-const p = action.getObject("person", person);
+const v: Validator<Person> = new ZodValidatorAdapter(person);
 
-if (p.ok) {
+
+const p = action.getObject("person", Some(v));
+
+if (p.isOk()) {
   const per: Person = p.unwrap();
   debug(`Hello ${per.name}!`);
   debug(`You are ${per.age} years old!`);
@@ -28,6 +34,6 @@ if (p.ok) {
   debug(`Your phone number is ${per.phone}!`);
   debug(`Your address is ${JSON.stringify(per.address)}!`);
 } else {
-  const err = p.val as Error;
+  const err = p.unwrapErr();
   setFailed(err.message);
 }

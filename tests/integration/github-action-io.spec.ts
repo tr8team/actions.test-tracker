@@ -92,7 +92,7 @@ describe("GithubActionIO for ActionIO", function() {
         const expected = {
           "error": [
             {
-              "content": "At path: phone -- Expected a string, but received: 88881234",
+              "content": `[%0A  {%0A    "code": "invalid_type",%0A    "expected": "string",%0A    "received": "number",%0A    "path": [%0A      "phone"%0A    ],%0A    "message": "Expected string, received number"%0A  }%0A]`,
               "meta": {},
             }
           ]

@@ -3,6 +3,9 @@ node_modules
 
 .idea
 
+# secrets
+secrets.json
+
 # nix
 .direnv
 
