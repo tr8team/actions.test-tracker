@@ -1,9 +1,13 @@
-import { should } from "chai";
+import { chai, describe, it, should } from "vitest";
+
 import { ZodValidatorAdapter } from "../../../src/lib/adapters/zod-validator-adapter";
 import { number, object, string } from "zod";
+// @ts-ignore
+import helper from "../../helper";
 
 should();
 
+chai.use(helper);
 
 describe("Zod Validator Adapter", function() {
   describe("Validator", function() {
@@ -39,8 +43,7 @@ describe("Zod Validator Adapter", function() {
         // act
         const act = v.parse(subj);
         // assert
-        act.isOk().should.be.true;
-        act.unwrap().should.deep.equal(expected);
+        return act.should.be.okOf(expected);
       });
       it("should return Error result if the validator fails", function() {
         // arrange
@@ -54,7 +57,7 @@ describe("Zod Validator Adapter", function() {
         // act
         const act = v.parse(subj);
         // assert
-        act.isErr().should.be.true;
+        act.should.be.err;
 
       });
     });

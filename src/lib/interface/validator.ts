@@ -1,4 +1,4 @@
-import { Result } from "@hqoss/monads";
+import { Result } from "../core/result";
 
 interface Validator<T> {
   parse(input: unknown): Result<T, Error>;

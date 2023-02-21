@@ -2,14 +2,14 @@ import * as fs from "fs";
 import { object, string, z } from "zod";
 import { parseJSON } from "../../src/lib/util";
 import { ZodValidatorAdapter } from "../../src/lib/adapters/zod-validator-adapter";
-import { Err, Result } from "@hqoss/monads";
 import * as path from "path";
+import { Err, Result } from "../../src/lib/core/result";
 
 // Secret Schema here
 const secret = object({
   gistKeyValue: object({
     gistId: string(),
-    token: string(),
+    token: string()
   })
 });
 
@@ -28,7 +28,6 @@ function loadSecret(): Result<Secret, Error> {
       return Err(new Error(JSON.stringify(e)));
     }
   }
-
 }
 
 export { loadSecret };

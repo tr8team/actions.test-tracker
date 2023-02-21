@@ -2,94 +2,61 @@ version: "3"
 
 tasks:
   default:
-    desc: Run all tests
+    desc: Run all unit tests
     cmds:
       - task: unit
   watch:
     desc: Run unit tests with auto-reload
     cmds:
       - task: unit:watch
-
+  report:
+    desc: Generate unit tests and integration tests reports
+    deps:
+      - unit:report
+      - int:report
   # Unit Tests
-
   unit:
     desc: Run unit tests
-    interactive: true
     cmds:
-      - mocha --config ./config/tests/unit/mocharc.js
+      - vitest run --config ./config/vitest.unit.dev.config.ts {{.CLI_ARGS}}
 
   unit:watch:
     desc: Run unit tests with auto-reload
-    interactive: true
     cmds:
-      - mocha --config ./config/tests/unit/mocharc.js --watch --reporter nyan
+      - vitest watch --config ./config/vitest.unit.dev.config.ts {{.CLI_ARGS}}
 
   unit:cover:
     desc: Run unit test and generate coverage
-    interactive: true
     cmds:
-      - nyc --nycrc-path ./config/tests/unit/nyc.cli.config.js mocha --config ./config/tests/unit/mocharc.js
-  unit:report:json:
-    desc: Generate unit test test report in JSON
-    ignore_error: true
-    cmds:
-      - mocha --config ./config/tests/unit/mocharc.json.js
-  unit:report:html:
-    desc: Generate unit test test report in HTML
-    ignore_error: true
-    cmds:
-      - mocha --config ./config/tests/unit/mocharc.html.js
-  unit:report:cover:
-    desc: Generate unit test coverage reports
-    cmds:
-      - nyc --nycrc-path ./config/tests/unit/nyc.report.config.js mocha --config ./config/tests/unit/mocharc.js
+      - vitest run --config ./config/vitest.unit.dev.config.ts --coverage {{.CLI_ARGS}}
+
   unit:report:
-    desc: Generate all unit test related reports
-    deps:
-      - unit:report:json
-      - unit:report:html
+    desc: Generate report for unit tests
     cmds:
-      - task: unit:report:cover
+      - vitest run --config ./config/vitest.unit.report.config.ts --coverage {{.CLI_ARGS}}
 
   # Integration tests
   int:
     desc: Run integration tests
-    interactive: true
     cmds:
-      - mocha --config ./config/tests/integration/mocharc.js
+      - vitest run --config ./config/vitest.int.dev.config.ts {{.CLI_ARGS}}
 
   int:watch:
     desc: Run integration tests with auto-reload
     interactive: true
     cmds:
-      - mocha --config ./config/tests/integration/mocharc.js --watch --reporter nyan
+      - vitest watch --config ./config/vitest.int.dev.config.ts {{.CLI_ARGS}}
 
   int:cover:
     desc: Run integration test and generate coverage
     interactive: true
     cmds:
-      - nyc --nycrc-path ./config/tests/integration/nyc.cli.config.js mocha --config ./config/tests/integration/mocharc.js
-  int:report:json:
-    desc: Generate integration test test report in JSON
-    ignore_error: true
-    cmds:
-      - mocha --config ./config/tests/integration/mocharc.json.js
-  int:report:html:
-    desc: Generate unit test test report in HTML
-    ignore_error: true
-    cmds:
-      - mocha --config ./config/tests/integration/mocharc.html.js
-  int:report:cover:
-    desc: Generate unit test coverage reports
-    cmds:
-      - nyc --nycrc-path ./config/tests/integration/nyc.report.config.js mocha --config ./config/tests/unit/mocharc.js
+      - vitest run --config ./config/vitest.int.dev.config.ts --coverage {{.CLI_ARGS}}
+
   int:report:
-    desc: Generate all integration test related reports
-    deps:
-      - int:report:json
-      - int:report:html
+    desc: Generate report for integration tests
     cmds:
-      - task: int:report:cover
+      - vitest run --config ./config/vitest.int.report.config.ts --coverage {{.CLI_ARGS}}
 
   # util
   clean:
@@ -98,4 +65,3 @@ tasks:
     cmds:
       - rm -rf test-results
       - rm -rf .nyc_output
-      - rm -rf coverage

@@ -1,7 +1,7 @@
 import { ZodType, ZodTypeDef } from "zod";
 import { Validator } from "../interface/validator";
-import { Result } from "@hqoss/monads";
 import { toResult } from "../util";
+import { Result } from "../core/result";
 
 class ZodValidatorAdapter<T, X extends ZodTypeDef> implements Validator<T> {
   private validator: ZodType<T, X, T>;

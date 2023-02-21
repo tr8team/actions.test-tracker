@@ -1,4 +1,5 @@
-import { should } from "chai";
+import { should, describe, it } from "vitest";
+
 // @ts-ignore
 import { actionScripts, emulateAction } from "./helper";
 

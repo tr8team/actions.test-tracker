@@ -1,5 +1,6 @@
 import { Validator } from "./validator";
-import { Option, Result } from "@hqoss/monads";
+import { Result } from "../core/result";
+import { Option } from "../core/option";
 
 interface ActionIO {
   get(key: string): string;

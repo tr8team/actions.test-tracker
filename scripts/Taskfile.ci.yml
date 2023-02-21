@@ -23,7 +23,6 @@ tasks:
 
   emulate:pre-commit:debug:
     desc: Execute pre-commit for CI with full emulation and enter shell afterwards
-    interactive: true
     env:
       CI_EMULATE_AFTER: enter
     cmds:
@@ -41,7 +40,6 @@ tasks:
 
   emulate:test:debug:
     desc: Execute tests for CI with full emulation and enter shell afterwards
-    interactive: true
     env:
       CI_EMULATE_AFTER: enter
     cmds:
@@ -58,7 +56,6 @@ tasks:
 
   emulate:build:debug:
     desc: Build for CI with full emulation and enter shell afterwards
-    interactive: true
     env:
       CI_EMULATE_AFTER: enter
     cmds:

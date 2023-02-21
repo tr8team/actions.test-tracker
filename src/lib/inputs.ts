@@ -47,7 +47,28 @@ const input = object({
 
 const inputArray = array(input);
 
+const historyEntry = object({
+  sha: string(),
+  url: string(),
+  action: string(),
+  items: inputArray,
+}).strict();
+
+const history = array(historyEntry);
+
 type Input = z.infer<typeof input>;
 type InputArray = z.infer<typeof inputArray>;
+type HistoryEntry = z.infer<typeof historyEntry>;
+type History = z.infer<typeof history>;
 
-export { metadata, input, Input, inputArray, InputArray };
+export {
+  metadata,
+  input,
+  inputArray,
+  historyEntry,
+  history,
+  Input,
+  InputArray,
+  HistoryEntry,
+  History,
+};

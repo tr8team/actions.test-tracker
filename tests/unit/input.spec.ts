@@ -1,4 +1,4 @@
-import { should } from "chai";
+import { should, it, describe } from "vitest";
 import { Input, input } from "../../src/lib/inputs";
 import { SafeParseError, SafeParseSuccess } from "zod";
 
@@ -58,6 +58,7 @@ describe("input validator", () => {
 
         act.success.should.be.true;
         act.data.should.deep.equal(expected);
+
       });
     });
   });
@@ -342,7 +343,7 @@ describe("input validator", () => {
                   received: "undefined",
                   path: [
                     "data",
-                    "function",
+                    "function"
                   ],
                   message: "Required"
                 },
@@ -352,7 +353,7 @@ describe("input validator", () => {
                   received: "undefined",
                   path: [
                     "data",
-                    "branch",
+                    "branch"
                   ],
                   message: "Required"
                 },
@@ -361,10 +362,10 @@ describe("input validator", () => {
                   keys: [
                     "pass",
                     "fail",
-                    "skip",
+                    "skip"
                   ],
                   path: [
-                    "data",
+                    "data"
                   ],
                   message: "Unrecognized key(s) in object: 'pass', 'fail', 'skip'"
                 }
@@ -387,7 +388,7 @@ describe("input validator", () => {
                   received: "undefined",
                   path: [
                     "data",
-                    "pass",
+                    "pass"
                   ],
                   message: "Required"
                 },
@@ -397,7 +398,7 @@ describe("input validator", () => {
                   received: "undefined",
                   path: [
                     "data",
-                    "fail",
+                    "fail"
                   ],
                   message: "Required"
                 },
@@ -407,17 +408,17 @@ describe("input validator", () => {
                   received: "undefined",
                   path: [
                     "data",
-                    "skip",
+                    "skip"
                   ],
                   message: "Required"
                 },
                 {
                   code: "unrecognized_keys",
                   keys: [
-                    "qualityRating",
+                    "qualityRating"
                   ],
                   path: [
-                    "data",
+                    "data"
                   ],
                   message: "Unrecognized key(s) in object: 'qualityRating'"
                 }

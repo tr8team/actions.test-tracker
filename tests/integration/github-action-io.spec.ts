@@ -1,4 +1,4 @@
-import { should } from "chai";
+import { should, describe, it } from "vitest";
 // @ts-ignore
 import { actionScripts, emulateAction } from "./helper";
 
@@ -24,11 +24,11 @@ describe("GithubActionIO for ActionIO", function() {
             "meta": {}
           }
         ]
-      }
+      };
       // act
       const output = emulateAction({
         relativePath: [...actionScripts, "io", "get_write_debug.ts"],
-        input,
+        input
       });
 
       // assert
@@ -48,10 +48,10 @@ describe("GithubActionIO for ActionIO", function() {
               "meta": {}
             }
           ]
-        }
+        };
         // act
         const output = emulateAction({
-          relativePath: [...actionScripts, "io", "get_write_debug.ts"],
+          relativePath: [...actionScripts, "io", "get_write_debug.ts"]
         });
 
         // assert
@@ -71,14 +71,14 @@ describe("GithubActionIO for ActionIO", function() {
           "error": [
             {
               "content": "Unexpected token < in JSON at position 0",
-              "meta": {},
+              "meta": {}
             }
           ]
-        }
+        };
         // act
         const output = emulateAction({
           relativePath: [...actionScripts, "io", "get_object_write_debug.ts"],
-          input,
+          input
         });
 
         // assert
@@ -93,14 +93,14 @@ describe("GithubActionIO for ActionIO", function() {
           "error": [
             {
               "content": `[%0A  {%0A    "code": "invalid_type",%0A    "expected": "string",%0A    "received": "number",%0A    "path": [%0A      "phone"%0A    ],%0A    "message": "Expected string, received number"%0A  }%0A]`,
-              "meta": {},
+              "meta": {}
             }
           ]
-        }
+        };
         // act
         const output = emulateAction({
           relativePath: [...actionScripts, "io", "get_object_write_debug.ts"],
-          input,
+          input
         });
 
         // assert
@@ -115,30 +115,30 @@ describe("GithubActionIO for ActionIO", function() {
           "debug": [
             {
               "content": "Hello Ernest!",
-              "meta": {},
+              "meta": {}
             },
             {
               "content": "You are 19 years old!",
-              "meta": {},
+              "meta": {}
             },
             {
               "content": "You have taken the vaccine!",
-              "meta": {},
+              "meta": {}
             },
             {
               "content": "Your phone number is 88881234!",
-              "meta": {},
+              "meta": {}
             },
             {
               "content": "Your address is {\"block\":200,\"door\":\"17-328\",\"street\":\"jane street\"}!",
-              "meta": {},
-            },
+              "meta": {}
+            }
           ]
-        }
+        };
         // act
         const output = emulateAction({
           relativePath: [...actionScripts, "io", "get_object_write_debug.ts"],
-          input,
+          input
         });
 
         // assert
@@ -155,14 +155,14 @@ describe("GithubActionIO for ActionIO", function() {
           "error": [
             {
               "content": "Unexpected token < in JSON at position 0",
-              "meta": {},
+              "meta": {}
             }
           ]
-        }
+        };
         // act
         const output = emulateAction({
           relativePath: [...actionScripts, "io", "get_object_write_debug_without_validator.ts"],
-          input,
+          input
         });
 
         // assert
@@ -177,14 +177,14 @@ describe("GithubActionIO for ActionIO", function() {
           debug: [
             {
               content: `{"key1":"val1","key2":{"key3":"val3"}}`,
-              meta: {},
+              meta: {}
             }
           ]
-        }
+        };
         // act
         const output = emulateAction({
           relativePath: [...actionScripts, "io", "get_object_write_debug_without_validator.ts"],
-          input,
+          input
         });
 
         // assert
@@ -200,14 +200,14 @@ describe("GithubActionIO for ActionIO", function() {
             {
               content: "random value 2",
               meta: {
-                name: "first-key",
+                name: "first-key"
               }
             }
           ]
         }
       ;
       const output = emulateAction({
-        relativePath: [...actionScripts,"io",  "set_string_output.ts"],
+        relativePath: [...actionScripts, "io", "set_string_output.ts"]
       });
       output.should.deep.equal(expected);
     });
@@ -217,14 +217,14 @@ describe("GithubActionIO for ActionIO", function() {
             {
               content: "",
               meta: {
-                name: "first-key",
+                name: "first-key"
               }
             }
           ]
         }
       ;
       const output = emulateAction({
-        relativePath: [...actionScripts, "io", "set_empty_string_output.ts"],
+        relativePath: [...actionScripts, "io", "set_empty_string_output.ts"]
       });
       output.should.deep.equal(expected);
     });
@@ -237,14 +237,14 @@ describe("GithubActionIO for ActionIO", function() {
             {
               content: `{"name":"Ernest","age":17}`,
               meta: {
-                name: "first-key",
+                name: "first-key"
               }
             }
           ]
         }
       ;
       const output = emulateAction({
-        relativePath: [...actionScripts, "io", "set_object_output.ts"],
+        relativePath: [...actionScripts, "io", "set_object_output.ts"]
       });
       output.should.deep.equal(expected);
     });

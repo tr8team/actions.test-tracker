@@ -8,11 +8,16 @@ tasks:
       - task: node
   pre-commit:
     desc: Setup Pre-Commit
+    sources:
+      - config/.pre-commit-config.yaml
     cmds:
       - pre-commit install -c ./config/.pre-commit-config.yaml --install-hooks
       - pre-commit install -c ./config/.pre-commit-config.yaml -t commit-msg
       - precommit-nix-patch patch
   node:
     desc: Setup Node Workspace
+    sources:
+      - package.json
+      - pnpm-lock.yaml
     cmds:
       - pnpm install

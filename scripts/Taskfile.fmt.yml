@@ -5,29 +5,28 @@ includes:
 tasks:
   default:
     desc: Run all formatters
-    output: group
-    deps:
-      - eof
-      - trailing:whitespace
-      - line:ending
-      - sh
-      - md
-      - yaml
-      - json
-      - nix
+    cmds:
+      - task: eof
+      - task: whitespace
+      - task: clrf
+      - task: sh
+      - task: md
+      - task: yaml
+      - task: json
+      - task: nix
   eof:
     desc: Fixes end of file
     cmds:
       - task: util:pc
         vars:
           PC_ID: end-of-file-fixer
-  trailing:whitespace:
+  whitespace:
     desc: Fix all trailing whitespaces
     cmds:
       - task: util:pc
         vars:
           PC_ID: trailing-whitespace
-  line:ending:
+  clrf:
     desc: Fix line endings
     cmds:
       - task: util:pc

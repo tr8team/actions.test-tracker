@@ -1,11 +1,12 @@
-import { Option, Result } from "@hqoss/monads";
+import { Result } from "../core/result";
+import { Option } from "../core/option";
 
-interface KeyValueRepository<T> {
-  read(key: string): Promise<Result<Option<T>, Error>>;
+interface KeyValueRepository {
+  read<T>(key: string): Result<Option<T>, Error>;
 
-  write(key: string, value: T): Promise<Option<Error>>;
+  write<T>(key: string, value: T): Option<Error>;
 
-  delete(key: string): Promise<Option<Error>>;
+  delete(key: string): Option<Error>;
 }
 
 export { KeyValueRepository };
