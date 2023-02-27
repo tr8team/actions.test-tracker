@@ -1,12 +1,11 @@
 import { chai, describe, it, should } from "vitest";
 
-import { ZodValidatorAdapter } from "../../../src/lib/adapters/zod-validator-adapter";
+import { ZodValidatorAdapter } from "../../../src/lib/adapters/zod-validator-adapter.js";
 import { number, object, string } from "zod";
 // @ts-ignore
-import helper from "../../helper";
+import helper from "../../helper.js";
 
 should();
-
 chai.use(helper);
 
 describe("Zod Validator Adapter", function() {

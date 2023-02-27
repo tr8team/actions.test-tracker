@@ -1,8 +1,8 @@
 import { chai, should, it, describe, expect } from "vitest";
-import { Err, Ok, Res, Result } from "../../../src/lib/core/result";
+import { Err, Ok, Res, Result } from "../../../src/lib/core/result.js";
 import chaiAsPromised from "chai-as-promised";
 // @ts-ignore
-import chaiResult from "../../helper";
+import chaiResult from "../../helper.js";
 
 chai.use(chaiAsPromised);
 chai.use(chaiResult);

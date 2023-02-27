@@ -1,4 +1,4 @@
-import { DU } from "../core/discrimminated_union";
+import { DU } from "../core/discrimminated-union.i.js";
 
 interface GitHubActionPushEvent {
   // Full git ref that was pushed. Example: refs/heads/main or refs/tags/v3.14.1
@@ -14,8 +14,12 @@ interface GitHubActionPushEvent {
 interface GitHubActionPullRequestEvent {
   // pull request number
   number: number;
+  // Pull requests' base branch's full reference. Example: refs/heads/main
+  baseRef: string;
+  // Pull requests' base branch's SHA
+  baseRefSha: string;
   // state of pull request
-  pull_request_state: "open" | "closed";
+  pullRequestState: "open" | "closed";
 }
 
 type GitHubActionEvent = DU<
@@ -35,7 +39,7 @@ interface ContextRetriever {
   actionUrl: string;
 }
 
-export {
+export type {
   GitHubActionEvent,
   ContextRetriever,
   GitHubActionPushEvent,

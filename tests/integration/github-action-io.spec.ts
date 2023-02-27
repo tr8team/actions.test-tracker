@@ -1,6 +1,6 @@
 import { should, describe, it } from "vitest";
 // @ts-ignore
-import { actionScripts, emulateAction } from "./helper";
+import { actionScripts, emulateAction } from "./helper.js";
 
 should();
 

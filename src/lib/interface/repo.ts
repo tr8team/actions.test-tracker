@@ -1,5 +1,5 @@
-import { Result } from "../core/result";
-import { Option } from "../core/option";
+import { Result } from "../core/result.js";
+import { Option } from "../core/option.js";
 
 interface KeyValueRepository {
   read<T>(key: string): Result<Option<T>, Error>;
@@ -9,4 +9,4 @@ interface KeyValueRepository {
   delete(key: string): Option<Error>;
 }
 
-export { KeyValueRepository };
+export type { KeyValueRepository };

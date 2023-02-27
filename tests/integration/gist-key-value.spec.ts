@@ -1,17 +1,17 @@
 import { beforeAll, chai, describe, it, should } from "vitest";
 
 // @ts-ignore
-import { actionScripts, emulateAction } from "./helper";
+import { actionScripts, emulateAction } from "./helper.js";
 // @ts-ignore
-import { loadSecret } from "./secret-loader";
+import { loadSecret } from "./secret-loader.js";
 // @ts-ignore
-import helper from "../helper";
+import helper from "../helper.js";
 
-import { GistKeyValue } from "../../src/external/gist-key-value";
+import { GistKeyValue } from "../../src/external/gist-key-value.js";
 import { Octokit } from "@octokit/rest";
-import { KeyValueRepository } from "../../src/lib/interface/repo";
-import { Ok } from "../../src/lib/core/result";
-import { None, Some } from "../../src/lib/core/option";
+import { KeyValueRepository } from "../../src/lib/interface/repo.js";
+import { Ok } from "../../src/lib/core/result.js";
+import { None, Some } from "../../src/lib/core/option.js";
 
 should();
 chai.use(helper);

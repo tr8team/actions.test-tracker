@@ -8,7 +8,7 @@ export default defineConfig({
     reporters: ["default"],
     coverage: {
       all: true,
-      include: ["src/lib/**/*.[tj]s?(x)"],
+      include: ["src/lib/**/*.?([mc])[tj]s?(x)"],
       provider: "istanbul",
       reporter: ["text"]
     }

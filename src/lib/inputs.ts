@@ -61,14 +61,6 @@ type InputArray = z.infer<typeof inputArray>;
 type HistoryEntry = z.infer<typeof historyEntry>;
 type History = z.infer<typeof history>;
 
-export {
-  metadata,
-  input,
-  inputArray,
-  historyEntry,
-  history,
-  Input,
-  InputArray,
-  HistoryEntry,
-  History,
-};
+export { metadata, input, inputArray, historyEntry, history };
+
+export type { Input, InputArray, HistoryEntry, History };

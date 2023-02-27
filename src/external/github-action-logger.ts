@@ -1,5 +1,5 @@
 import * as core from "@actions/core";
-import { ILogger } from "../lib/interface/logger";
+import { ILogger } from "../lib/interface/logger.js";
 
 class GithubActionLogger implements ILogger {
   debug(message: string): void {

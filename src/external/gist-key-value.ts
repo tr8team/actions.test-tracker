@@ -1,8 +1,8 @@
-import { KeyValueRepository } from "../lib/interface/repo";
+import { KeyValueRepository } from "../lib/interface/repo.js";
 import { Octokit } from "@octokit/rest";
-import { catchToResult } from "../lib/util";
-import { None, Opt, Option, Some } from "../lib/core/option";
-import { Err, Ok, Res, Result } from "../lib/core/result";
+import { catchToResult } from "../lib/util.js";
+import { None, Opt, Option, Some } from "../lib/core/option.js";
+import { Err, Ok, Res, Result } from "../lib/core/result.js";
 
 class GistKeyValue implements KeyValueRepository {
   octokit: Octokit;

@@ -10,4 +10,4 @@ interface ILogger {
   error(message: string): void;
 }
 
-export { ILogger };
+export type { ILogger };

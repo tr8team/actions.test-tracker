@@ -1,5 +1,5 @@
-import { UnwrapError } from "./error";
-import { INone, ISome, KOption, Option } from "./option";
+import { UnwrapError } from "./error.js";
+import { INone, ISome, KOption, Option } from "./option.js";
 
 // Creates a new instance of `Result` as the `err` variant.
 /**

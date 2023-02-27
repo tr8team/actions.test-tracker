@@ -1,9 +1,9 @@
 import { chai, should, it, describe } from "vitest";
 import { object, string } from "zod";
-import { catchToResult, parseJSON, stringToOption, toResult } from "../../src/lib/util";
-import { Ok } from "../../src/lib/core/result";
+import { catchToResult, parseJSON, stringToOption, toResult } from "../../src/lib/util.js";
+import { Ok } from "../../src/lib/core/result.js";
 // @ts-ignore
-import helper from "../helper";
+import helper from "../helper.js";
 
 should();
 

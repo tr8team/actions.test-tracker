@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
     // compilation
-    "target": "es6",
+    "target": "ESNext",
     "outDir": "./lib",
     "rootDir": "./src",
     // modules
-    "module": "commonjs",
+    "module": "ESNext",
+    "moduleResolution": "NodeNext",
     "esModuleInterop": true,
     // rules
     "strictPropertyInitialization": true,
@@ -21,7 +22,9 @@
     "noImplicitOverride": true,
     "noImplicitReturns": true,
     "strictFunctionTypes": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "inlineSourceMap": true,
+    "inlineSources": true
   },
   "exclude": ["node_modules", "tests", "config"]
 }

@@ -1,11 +1,11 @@
-import { InputRetriever, Inputs } from "../interface/input-retriever";
-import { ActionIO } from "../interface/io";
-import { ContextRetriever } from "../interface/context-retriever";
-import { stringToOption } from "../util";
-import { Validator } from "../interface/validator";
-import { InputArray } from "../inputs";
-import { Result } from "../core/result";
-import { None, Some } from "../core/option";
+import { InputRetriever, Inputs } from "../interface/input-retriever.js";
+import { ActionIO } from "../interface/io.js";
+import { ContextRetriever } from "../interface/context-retriever.js";
+import { stringToOption } from "../util.js";
+import { Validator } from "../interface/validator.js";
+import { InputArray } from "../inputs.js";
+import { Result } from "../core/result.js";
+import { None, Option, Some } from "../core/option.js";
 
 class IoInputRetriever implements InputRetriever {
   io: ActionIO;
@@ -24,7 +24,7 @@ class IoInputRetriever implements InputRetriever {
 
   retrieve(): Result<Inputs, Error> {
     const r = this.io.getObject<InputArray>("data", Some(this.inputValidator));
-    return r.map(async (data) => {
+    return r.map(async (data: InputArray) => {
       const prefix: string = await stringToOption(
         this.io.get("prefix")
       ).unwrapOr("");
@@ -37,13 +37,18 @@ class IoInputRetriever implements InputRetriever {
         this.context.repoUrl
       );
 
-      const prNumber = (() => {
+      const pr: Option<{ number: number; baseSha: string }> = (() => {
         switch (this.context.event.__kind) {
           case "push":
           case "other":
-            return None<number>();
+            return None();
           case "pullRequest":
-            return Some<number>(this.context.event.value.number);
+            return Some({
+              number: this.context.event.value.number,
+              baseSha: this.context.event.value.baseRefSha,
+            });
+          default:
+            throw new Error("unreachable");
         }
       })();
 
@@ -54,7 +59,7 @@ class IoInputRetriever implements InputRetriever {
         prefix,
         repoUrl,
         actionUrl,
-        prNumber,
+        pr,
       };
     });
   }

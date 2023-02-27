@@ -1,9 +1,9 @@
 import {
   ContextRetriever,
   GitHubActionEvent,
-} from "../lib/interface/context-retriever";
+  GitHubActionPullRequestEvent,
+} from "../lib/interface/context-retriever.js";
 import { context } from "@actions/github";
-// eslint-disable-next-line import/no-unresolved
 import { PullRequestEvent, PushEvent } from "@octokit/webhooks-types";
 
 class GithubActionContextRetriever implements ContextRetriever {
@@ -21,10 +21,11 @@ class GithubActionContextRetriever implements ContextRetriever {
       };
     } else if (context.eventName === "pull_request") {
       const event = context.payload as PullRequestEvent;
-      const pr = {
+      const pr: GitHubActionPullRequestEvent = {
         number: event.number,
-        // eslint-disable-next-line camelcase
-        pull_request_state: event.pull_request.state,
+        pullRequestState: event.pull_request.state,
+        baseRef: event.pull_request.base.ref,
+        baseRefSha: event.pull_request.base.sha,
       };
       return {
         __kind: "pullRequest",

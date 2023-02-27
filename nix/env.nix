@@ -5,6 +5,8 @@ with pkgs;
   system = [
     coreutils
     gnugrep
+    findutils
+    gnused
   ];
 
   main = [

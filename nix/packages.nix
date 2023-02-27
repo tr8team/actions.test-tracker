@@ -26,6 +26,8 @@ let
           jq
           nixpkgs-fmt
           shfmt
+          findutils
+          gnused
           shellcheck;
 
         node18 = nodejs;

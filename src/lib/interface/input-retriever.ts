@@ -1,6 +1,11 @@
-import { InputArray } from "../inputs";
-import { Result } from "../core/result";
-import { Option } from "../core/option";
+import { InputArray } from "../inputs.js";
+import { Result } from "../core/result.js";
+import { Option } from "../core/option.js";
+
+type PR = {
+  number: number;
+  baseSha: string;
+};
 
 interface Inputs {
   data: InputArray;
@@ -8,11 +13,11 @@ interface Inputs {
   sha: string;
   repoUrl: string;
   actionUrl: string;
-  prNumber: Option<number>;
+  pr: Option<PR>;
 }
 
 interface InputRetriever {
   retrieve(): Result<Inputs, Error>;
 }
 
-export { InputRetriever, Inputs };
+export type { InputRetriever, Inputs, PR };

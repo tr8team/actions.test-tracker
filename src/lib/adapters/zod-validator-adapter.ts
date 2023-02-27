@@ -1,7 +1,7 @@
 import { ZodType, ZodTypeDef } from "zod";
-import { Validator } from "../interface/validator";
-import { toResult } from "../util";
-import { Result } from "../core/result";
+import { Validator } from "../interface/validator.js";
+import { toResult } from "../util.js";
+import { Result } from "../core/result.js";
 
 class ZodValidatorAdapter<T, X extends ZodTypeDef> implements Validator<T> {
   private validator: ZodType<T, X, T>;

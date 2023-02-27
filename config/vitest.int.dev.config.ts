@@ -9,7 +9,8 @@ export default defineConfig({
     testTimeout: 30000,
     coverage: {
       all: true,
-      include: ["src/**/*.[tj]s?(x)"],
+      include: ["src/**/*.?([mc])[tj]s?(x)"],
+      exclude: ["**/interface/*.*"],
       provider: "istanbul",
       reporter: ["text"]
     }

@@ -30,7 +30,7 @@ export function emulateAction({
   const options: cp.ExecFileSyncOptions = {
     env: process.env,
   };
-  const spawn = cp.spawnSync("ts-node", [ip], options);
+  const spawn = cp.spawnSync("ts-node-esm", [ip], options);
   const stdout = spawn.stdout
     .toString()
     .split(os.EOL)

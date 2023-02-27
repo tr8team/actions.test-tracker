@@ -21,6 +21,7 @@ tasks:
     cmds:
       - rm -rf ./dist
       - rm -rf ./lib
+      - task: test:clean
   # Quality Assurance
   check:
     desc: Run all Quality Checks
@@ -28,5 +29,4 @@ tasks:
       - enforce
       - lint
       - fmt
-      - test
-      - test:cover
+      - test:unit:cover

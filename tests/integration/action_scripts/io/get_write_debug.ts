@@ -1,4 +1,4 @@
-import { GithubActionIO } from "../../../../src/external/github-action-i-o";
+import { GithubActionIO } from "../../../../src/external/github-action-i-o.js";
 import { debug } from "@actions/core";
 
 const action = new GithubActionIO();

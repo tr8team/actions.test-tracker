@@ -1,5 +1,5 @@
 import { should, it, describe } from "vitest";
-import { Input, input } from "../../src/lib/inputs";
+import { Input, input } from "../../src/lib/inputs.js";
 import { SafeParseError, SafeParseSuccess } from "zod";
 
 should();

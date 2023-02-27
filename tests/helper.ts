@@ -1,10 +1,10 @@
 import { Assertion, expect, should } from "chai";
-import { Result } from "../src/lib/core/result";
-import { Option } from "../src/lib/core/option";
+import { Result } from "../src/lib/core/result.js";
+import { Option } from "../src/lib/core/option.js";
 import ChaiPlugin = Chai.ChaiPlugin;
 import ChaiStatic = Chai.ChaiStatic;
 import ChaiUtils = Chai.ChaiUtils;
-import * as deepEqual from "@kirinnee/deep-eql";
+import deepEqual from "@kirinnee/deep-eql";
 
 should();
 declare global {
@@ -257,7 +257,7 @@ const plugin: ChaiPlugin = function(_: ChaiStatic, utils: ChaiUtils) {
 
 
   const resultOptionEqual = async (a1: unknown, b1: unknown): Promise<boolean> => {
-    return await deepEqual.default(a1, b1, {
+    return await deepEqual(a1, b1, {
       comparator: async (a, b, e, c): Promise<boolean | null> => {
         const result = await resultCompare(a, b, e, c);
         if (result === true || result === false) {

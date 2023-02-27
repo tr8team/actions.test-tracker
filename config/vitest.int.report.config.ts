@@ -13,7 +13,8 @@ export default defineConfig({
     },
     coverage: {
       all: true,
-      include: ["src/**/*.[tj]s?(x)"],
+      include: ["src/**/*.?([mc])[tj]s?(x)"],
+      exclude: ["**/interface/*.*"],
       provider: "istanbul",
       reporter: ["html", "json-summary"],
       reportsDirectory: "./test-results/int/coverage"

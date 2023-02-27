@@ -1,9 +1,9 @@
 import * as fs from "fs";
 import { object, string, z } from "zod";
-import { parseJSON } from "../../src/lib/util";
-import { ZodValidatorAdapter } from "../../src/lib/adapters/zod-validator-adapter";
+import { parseJSON } from "../../src/lib/util.js";
+import { ZodValidatorAdapter } from "../../src/lib/adapters/zod-validator-adapter.js";
 import * as path from "path";
-import { Err, Result } from "../../src/lib/core/result";
+import { Err, Result } from "../../src/lib/core/result.js";
 
 // Secret Schema here
 const secret = object({

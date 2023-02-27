@@ -1,5 +1,5 @@
 import { should, it, describe } from "vitest";
-import { UnwrapError } from "../../../src/lib/core/error";
+import { UnwrapError } from "../../../src/lib/core/error.js";
 
 should();
 
