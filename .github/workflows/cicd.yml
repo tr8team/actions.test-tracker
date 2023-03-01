@@ -7,7 +7,7 @@ on:
 env:
   ENABLE_PNPM_CACHE: "false"
 jobs:
-  Unit Test:
+  UnitTest:
     runs-on:
       - nix
       - ARM64
@@ -35,7 +35,7 @@ jobs:
         env:
           NIXPKGS_ALLOW_UNFREE: "1"
         run: nix-shell nix/shells.nix -A ci --run scripts/ci/unit_test.sh
-  Integration Test:
+  IntegrationTest:
     runs-on:
       - nix
       - ARM64
@@ -129,8 +129,8 @@ jobs:
         run: nix-shell nix/shells.nix -A ci --run scripts/ci/pre-commit.sh
   Release:
     needs:
-      - Unit Test
-      - Integration Test
+      - UnitTest
+      - IntegrationTest
       - Build
       - Pre-commit
     name: Release
