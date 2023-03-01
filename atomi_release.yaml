@@ -53,7 +53,16 @@ types:
       config:
         desc: Fixes in configuration
         release: false
-
+  - type: test
+    desc: Added automated testing for a section of code
+    vae:
+      verb: test
+      application: <title>
+      example: "test: user service"
+    scopes:
+      default:
+        desc: Automated testing
+        release: false
   - type: feat
     section: Features
     desc: Adds a new feature into the action
