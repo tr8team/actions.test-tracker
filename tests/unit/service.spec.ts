@@ -1,16 +1,16 @@
-import { describe, it, should, chai, expect } from "vitest";
+import { chai, describe, expect, it, should } from "vitest";
 import { HistoryService } from "../../src/lib/service.js";
-import { anything, instance, mock, verify, when } from "ts-mockito";
+import { anyString, anything, instance, mock, verify, when } from "ts-mockito";
 import { KeyValueRepository } from "../../src/lib/interface/repo.js";
 import { HistoryEntry, InputArray } from "../../src/lib/inputs.js";
 import { None, Option, Some } from "../../src/lib/core/option.js";
 import { Err, Ok } from "../../src/lib/core/result.js";
 import { Inputs, PR } from "../../src/lib/interface/input-retriever.js";
-
-should();
 // @ts-ignore
 import helper from "../helper.js";
 import { Output } from "../../src/lib/outputs.js";
+
+should();
 
 chai.use(helper);
 
@@ -790,7 +790,6 @@ describe("HistoryService", () => {
 
   });
 
-
   describe("buildOutput", function() {
     let mockKV: KeyValueRepository = mock<KeyValueRepository>();
     let kv = instance(mockKV);
@@ -931,7 +930,6 @@ describe("HistoryService", () => {
     });
 
   });
-
 
   describe("store", function() {
 
@@ -1391,7 +1389,7 @@ describe("HistoryService", () => {
                 }
               ]
             }
-          ]
+          ];
           // act
           const a = await act.unwrap();
           expect(a.preImage).to.not.be.null;
@@ -1494,7 +1492,7 @@ describe("HistoryService", () => {
                 line: 8,
                 branch: 72,
                 function: 91,
-                statement: 25,
+                statement: 25
               },
               name: "infra documentation"
             }
@@ -1528,7 +1526,7 @@ describe("HistoryService", () => {
                   line: 8,
                   branch: 72,
                   function: 91,
-                  statement: 25,
+                  statement: 25
                 },
                 name: "infra documentation"
               }
@@ -1557,7 +1555,7 @@ describe("HistoryService", () => {
                     line: 8,
                     branch: 72,
                     function: 91,
-                    statement: 25,
+                    statement: 25
                   },
                   name: "infra documentation"
                 }
@@ -1588,7 +1586,7 @@ describe("HistoryService", () => {
                     line: 8,
                     branch: 72,
                     function: 91,
-                    statement: 25,
+                    statement: 25
                   },
                   name: "infra documentation"
                 }
@@ -1617,7 +1615,7 @@ describe("HistoryService", () => {
                     line: 8,
                     branch: 72,
                     function: 91,
-                    statement: 25,
+                    statement: 25
                   },
                   name: "infra documentation"
                 }
@@ -1640,16 +1638,151 @@ describe("HistoryService", () => {
       });
 
       describe("failure cases", function() {
-        it("should fail if writing to commit history fails", function() {
+        const inputs: Inputs = {
+          sha: "284a50a1d092ff9e40b314e37fdf8c901d197f7d",
+          data: [
+            {
+              url: "https://docker_slim.linux/docs",
+              data: {
+                type: "documentation"
+              },
+              name: "docker_slim documentation"
+            }
+          ],
+          pr: Some({
+            number: 214,
+            baseSha: "21927359a653623008690a0c20722b45ad0eb18d"
+          }),
+          actionUrl: "https://github.com/nus_ie8827/actions/runs/92",
+          repoUrl: "https://github.com/nus_ie8827",
+          prefix: "nus_ie8827*"
+        };
+        const base: HistoryEntry = {
+          sha: "21927359a653623008690a0c20722b45ad0eb18d",
+          url: "https://sample.com",
+          action: "https://sampple.dev",
+          items: [
+            {
+              url: "https://codalytics.code/run/772/adsds/abc",
+              data: {
+                type: "code-quality",
+                qualityRating: "Bad"
+              },
+              name: "Codalytics"
+            }
+          ]
+        };
 
+        it("should fail if writing to commit history fails", async function() {
+          // Mocks
+          let mockKV: KeyValueRepository = mock<KeyValueRepository>();
+
+          // write single commit
+          when(mockKV.write<HistoryEntry>("nus_ie8827*284a50a1d092ff9e40b314e37fdf8c901d197f7d-commit.json", anything()))
+            .thenReturn(Some(new Error("commit write emulated broken")));
+          // read base PR
+          when(mockKV.read<HistoryEntry>("nus_ie8827*21927359a653623008690a0c20722b45ad0eb18d-commit.json"))
+            .thenReturn(Ok(Some(base)));
+
+          // write PR
+          when(mockKV.write<HistoryEntry[]>("nus_ie8827*214-pr.json", anything()))
+            .thenReturn(None());
+          // read PR
+          when(mockKV.read<HistoryEntry[]>("nus_ie8827*214-pr.json"))
+            .thenReturn(Ok(Some([])));
+
+          let kv = instance(mockKV);
+          const hs = new HistoryService(kv);
+
+          // Arrange
+          const act = hs.store(inputs);
+
+          // assert
+          await act.should.have.errErrorMessage("commit write emulated broken");
         });
 
-        it("should fail if writing to PR history fails", function() {
+        it("should fail if read to PR history fails", async function() {
+          // Mocks
+          let mockKV: KeyValueRepository = mock<KeyValueRepository>();
 
+          // write single commit
+          when(mockKV.write<HistoryEntry>("nus_ie8827*284a50a1d092ff9e40b314e37fdf8c901d197f7d-commit.json", anything()))
+            .thenReturn(None());
+          // read base PR
+          when(mockKV.read<HistoryEntry>("nus_ie8827*21927359a653623008690a0c20722b45ad0eb18d-commit.json"))
+            .thenReturn(Ok(Some(base)));
+
+          // write PR
+          when(mockKV.write<HistoryEntry[]>("nus_ie8827*214-pr.json", anything()))
+            .thenReturn(None());
+          // read PR
+          when(mockKV.read<HistoryEntry[]>("nus_ie8827*214-pr.json"))
+            .thenReturn(Err(new Error("emulate read pr fail")));
+
+          let kv = instance(mockKV);
+          const hs = new HistoryService(kv);
+
+          // Arrange
+          const act = hs.store(inputs);
+
+          // assert
+          await act.should.have.errErrorMessage("emulate read pr fail");
         });
 
-        it("should fail if obtaining base SHA fails", function() {
+        it("should fail if writing to PR history fails", async function() {
+          // Mocks
+          let mockKV: KeyValueRepository = mock<KeyValueRepository>();
 
+          // write single commit
+          when(mockKV.write<HistoryEntry>("nus_ie8827*284a50a1d092ff9e40b314e37fdf8c901d197f7d-commit.json", anything()))
+            .thenReturn(None());
+          // read base PR
+          when(mockKV.read<HistoryEntry>("nus_ie8827*21927359a653623008690a0c20722b45ad0eb18d-commit.json"))
+            .thenReturn(Ok(Some(base)));
+
+          // write PR
+          when(mockKV.write<HistoryEntry[]>("nus_ie8827*214-pr.json", anything()))
+            .thenReturn(Some(new Error("emulate write pr history fail")));
+          // read PR
+          when(mockKV.read<HistoryEntry[]>("nus_ie8827*214-pr.json"))
+            .thenReturn(Ok(Some([])));
+
+          let kv = instance(mockKV);
+          const hs = new HistoryService(kv);
+
+          // Arrange
+          const act = hs.store(inputs);
+
+          // assert
+          await act.should.have.errErrorMessage("emulate write pr history fail");
+        });
+
+        it("should fail if obtaining base SHA fails", async function() {
+          // Mocks
+          let mockKV: KeyValueRepository = mock<KeyValueRepository>();
+
+          // write single commit
+          when(mockKV.write<HistoryEntry>("nus_ie8827*284a50a1d092ff9e40b314e37fdf8c901d197f7d-commit.json", anything()))
+            .thenReturn(Some(new Error("emulate base PR fail")));
+          // read base PR
+          when(mockKV.read<HistoryEntry>("nus_ie8827*21927359a653623008690a0c20722b45ad0eb18d-commit.json"))
+            .thenReturn(Ok(Some(base)));
+
+          // write PR
+          when(mockKV.write<HistoryEntry[]>("nus_ie8827*214-pr.json", anything()))
+            .thenReturn(None());
+          // read PR
+          when(mockKV.read<HistoryEntry[]>("nus_ie8827*214-pr.json"))
+            .thenReturn(Ok(Some([])));
+
+          let kv = instance(mockKV);
+          const hs = new HistoryService(kv);
+
+          // Arrange
+          const act = hs.store(inputs);
+
+          // assert
+          await act.should.have.errErrorMessage("emulate base PR fail");
         });
 
       });
@@ -1657,30 +1790,149 @@ describe("HistoryService", () => {
 
     });
 
-
     describe("Push", function() {
 
-      describe("no error", function() {
-        it("should write to commit history", function() {
+      describe("no error", async function() {
+        // Mocks
+        let mockKV: KeyValueRepository = mock<KeyValueRepository>();
+        let stateTracker: Partial<{
+          commitWrite: HistoryEntry,
+          prWrite: HistoryEntry[],
+        }> = {};
 
+
+        // write single commit
+        when(mockKV.write<HistoryEntry>("nixDarwin?97b305f3bded588346ccbba968204ff65ff7929a-commit.json", anything()))
+          .thenCall((_, b: HistoryEntry) => {
+            stateTracker.commitWrite = b;
+            return None();
+          });
+
+        let kv = instance(mockKV);
+        const hs = new HistoryService(kv);
+
+        // Arrange
+        const inputs: Inputs = {
+          sha: "97b305f3bded588346ccbba968204ff65ff7929a",
+          data: [
+            {
+              url: "https://nix.dev/results/501",
+              data: {
+                type: "test-result",
+                fail: 0,
+                skip: 0,
+                pass: 124
+              },
+              name: "nix unit tests"
+            }
+          ],
+          pr: None(),
+          actionUrl: "https://github.com/nix/actions/runs/52",
+          repoUrl: "https://github.com/nix",
+          prefix: "nixDarwin?"
+        };
+        const act = hs.store(inputs);
+        // force eval
+        await act.native();
+
+        it("should succeed", async function() {
+          await act.should.be.ok;
         });
 
-        it("should not write to PR history", function() {
+        it("should write to commit history", async function() {
+          const expected: HistoryEntry = {
+            sha: "97b305f3bded588346ccbba968204ff65ff7929a",
+            url: "https://github.com/nix",
+            items: [
+              {
+                url: "https://nix.dev/results/501",
+                data: {
+                  type: "test-result",
+                  fail: 0,
+                  skip: 0,
+                  pass: 124
+                },
+                name: "nix unit tests"
+              }
+            ],
+            action: "https://github.com/nix/actions/runs/52"
+          };
+          verify(mockKV.write("nixDarwin?97b305f3bded588346ccbba968204ff65ff7929a-commit.json", anything())).once();
 
+          expect(stateTracker.commitWrite).to.not.be.null;
+          await stateTracker.commitWrite?.should.be.congruent(expected);
         });
 
-        it("should return the current commit", function() {
-
+        it("should not write to PR history", async function() {
+          verify(mockKV.write(anyString(), anything())).once();
+          expect(stateTracker.prWrite).to.be.undefined;
         });
-        it("should not return base, pre image or after image", function() {
 
+        it("should return the current commit", async function() {
+          const expected: HistoryEntry = {
+            sha: "97b305f3bded588346ccbba968204ff65ff7929a",
+            url: "https://github.com/nix",
+            items: [
+              {
+                url: "https://nix.dev/results/501",
+                data: {
+                  type: "test-result",
+                  fail: 0,
+                  skip: 0,
+                  pass: 124
+                },
+                name: "nix unit tests"
+              }
+            ],
+            action: "https://github.com/nix/actions/runs/52"
+          };
+          const a = await act.unwrap();
+          await a.current.should.be.congruent(expected);
+        });
+
+        it("should not return base, pre image or after image", async function() {
+          const a = await act.unwrap();
+          expect(a.base).to.be.undefined;
+          expect(a.preImage).to.be.undefined;
+          expect(a.afterImage).to.be.undefined;
         });
       });
 
-      describe("error cases", function() {
+      describe("error cases", async function() {
 
-        it("should fail if write commit fails", function() {
+        // Mocks
+        let mockKV: KeyValueRepository = mock<KeyValueRepository>();
 
+        // write single commit
+        when(mockKV.write<HistoryEntry>("docker_slim?d35ed1b92a2c5c7d83ef98305832d67841dd4a03-commit.json", anything()))
+          .thenReturn(Some(new Error("write emulated broken")));
+
+        let kv = instance(mockKV);
+        const hs = new HistoryService(kv);
+
+        // Arrange
+        const inputs: Inputs = {
+          sha: "d35ed1b92a2c5c7d83ef98305832d67841dd4a03",
+          data: [
+            {
+              url: "https://docker_slim.linux/docs",
+              data: {
+                type: "documentation"
+              },
+              name: "docker_slim documentation"
+            }
+          ],
+          pr: None(),
+          actionUrl: "https://github.com/docker_slim/actions/runs/1252",
+          repoUrl: "https://github.com/docker_slim",
+          prefix: "docker_slim?"
+        };
+        const act = hs.store(inputs);
+        // force eval
+        await act.native();
+
+        it("should fail if write commit fails", async function() {
+          await act.should.have.errErrorMessage("write emulated broken");
         });
 
       });

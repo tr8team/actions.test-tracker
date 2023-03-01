@@ -2,7 +2,7 @@ name: "Test Tracker"
 description: "GitHub action to track test results and metadata in Pull Requests"
 author: "kirinnee"
 inputs:
-  data: # change this
+  data:
     required: true
     description: "Test Data to Persist"
     default: "[]"
@@ -12,9 +12,15 @@ inputs:
   github_token:
     required: true
     description: "GitHub action token with Gist Permission"
-  pr_number:
+  prefix:
     required: false
-    description: "PR Number"
+    description: "Prefix for Key Storage"
+  sha:
+    required: false
+    description: "Use this SHA instead of commit SHA"
+  url:
+    required: false
+    description: "Use this as the repository URL instead of auto-detection"
 
 runs:
   using: "node16"

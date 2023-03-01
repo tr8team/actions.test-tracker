@@ -1,8 +1,10 @@
 import { should, it, describe } from "vitest";
+should();
+
+
 import { Input, input } from "../../src/lib/inputs.js";
 import { SafeParseError, SafeParseSuccess } from "zod";
 
-should();
 
 describe("input validator", () => {
   describe("valid objects", () => {
