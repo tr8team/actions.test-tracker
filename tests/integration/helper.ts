@@ -1,6 +1,6 @@
 import * as process from "process";
 import * as path from "path";
-import * as cp from "child_process";
+import { vi } from "vitest";
 import * as os from "os";
 
 type Command = {
@@ -12,34 +12,99 @@ type ActionOutput = { [k: string]: Command[] };
 
 type ActionInput = {
   relativePath: string[];
-  input?: { [k: string]: string };
+  input?: { [k: string]:string };
+  context?: Partial<{
+    eventName: string
+    sha: string
+    ref: string
+    workflow: string
+    action: string
+    actor: string
+    job: string
+    runNumber: string
+    runId: string
+    apiUrl: string
+    serverUrl: string
+    graphqlUrl: string
+    repository: string
+    payloadPath: string
+  }>
 };
 
-export function emulateAction({
+export function backupStdOut() {
+  const originalStdOut = process.stdout.write
+  const originalStdErr = process.stderr.write
+  let logs: {[n:number]:  { stdout: string, stderr: string }} = {};
+  let count = -100000;
+
+  return {
+    emulate: function(){
+      count++;
+      logs[count] = {
+        stdout: "",
+        stderr: "",
+      };
+      process.stdout.write = (s:string) => {
+        logs[count].stdout += s;
+        return true;
+
+      };
+      process.stderr.write = (s:string) => {
+        logs[count].stderr += s;
+        return true;
+      };
+      return function(): string[] {
+        const stdout = logs[count].stdout
+          .split(os.EOL)
+          .filter(x => x.length !== 0);
+        const stderr = logs[count].stderr
+          .split(os.EOL)
+          .filter(x => x.length !== 0);
+        return [...stdout, ...stderr]
+      }
+    },
+    restore: function() {
+      process.stdout.write = originalStdOut;
+      process.stderr.write = originalStdErr;
+    }
+  }
+
+}
+
+export async function emulateAction({
   relativePath,
   input,
-}: ActionInput): ActionOutput {
+  context,
+}: ActionInput, emulator: () => (()=>string[])): Promise<ActionOutput> {
   if(input != null) {
     for (const key in input) {
       if (input.hasOwnProperty(key)) {
-        process.env[`INPUT_${key.replace(/ /g, "_").toUpperCase()}`] = input[key];
+        vi.stubEnv(`INPUT_${key.replace(/ /g, "_").toUpperCase()}`, input[key])
       }
     }
   }
-  const ip = path.join(__dirname, "..", "..", ...relativePath);
-  const options: cp.ExecFileSyncOptions = {
-    env: process.env,
-  };
-  const spawn = cp.spawnSync("ts-node-esm", [ip], options);
-  const stdout = spawn.stdout
-    .toString()
-    .split(os.EOL)
-    .filter((x) => x.length !== 0);
-  const stderr = spawn.stderr
-    .toString()
-    .split(os.EOL)
-    .filter((x) => x.length !== 0);
-  return [...stdout, ...stderr]
+  if(context) {
+    if(context.payloadPath) vi.stubEnv("GITHUB_EVENT_PATH", context.payloadPath);
+    if(context.eventName) vi.stubEnv("GITHUB_EVENT_NAME", context.eventName);
+    if(context.sha) vi.stubEnv("GITHUB_SHA", context.sha);
+    if(context.ref) vi.stubEnv("GITHUB_REF", context.ref);
+    if(context.workflow) vi.stubEnv("GITHUB_WORKFLOW", context.workflow);
+    if(context.action) vi.stubEnv("GITHUB_ACTION", context.action);
+    if(context.actor) vi.stubEnv("GITHUB_ACTOR", context.actor);
+    if(context.job) vi.stubEnv("GITHUB_JOB", context.job);
+    if(context.runNumber) vi.stubEnv("GITHUB_RUN_NUMBER", context.runNumber);
+    if(context.runId) vi.stubEnv("GITHUB_RUN_ID", context.runId);
+    if(context.apiUrl) vi.stubEnv("GITHUB_API_URL", context.apiUrl);
+    if(context.serverUrl) vi.stubEnv("GITHUB_SERVER_URL", context.serverUrl);
+    if(context.graphqlUrl) vi.stubEnv("GITHUB_GRAPHQL_URL", context.graphqlUrl);
+    if(context.repository) vi.stubEnv("GITHUB_REPOSITORY", context.repository);
+  }
+
+  const result = emulator();
+  await import(path.join("..", "..", ...relativePath));
+  const output = result();
+
+  return output
     .map((str) => {
 
       if(!str.startsWith("::")) {

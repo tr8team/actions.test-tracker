@@ -1,13 +1,24 @@
-import { should, describe, it } from "vitest";
+import { afterAll, afterEach, describe, it, should, vi } from "vitest";
 // @ts-ignore
-import { actionScripts, emulateAction } from "./helper.js";
+import { actionScripts, backupStdOut, emulateAction } from "./helper.js";
+
 
 should();
+
+
+const f = backupStdOut();
+afterAll(() => {
+  f.restore();
+});
+
+afterEach(() => {
+  vi.unstubAllEnvs();
+})
 
 describe("GithubActionIO for ActionIO", function() {
 
   describe("get", function() {
-    it("should retrieve action input values", function() {
+    it("should retrieve action input values", async function() {
       // arrange
       const input = {
         name: "Ernest",
@@ -25,44 +36,43 @@ describe("GithubActionIO for ActionIO", function() {
           }
         ]
       };
+
       // act
-      const output = emulateAction({
+      const output = await emulateAction({
         relativePath: [...actionScripts, "io", "get_write_debug.ts"],
         input
-      });
+      }, f.emulate);
 
       // assert
       output.should.deep.equal(expected);
     });
-    it("should return empty string if no input is placed", function() {
-      it("should retrieve action input values", function() {
-        // arrange
-        const expected = {
-          "debug": [
-            {
-              "content": "Hello !",
-              "meta": {}
-            },
-            {
-              "content": "You are  years old!",
-              "meta": {}
-            }
-          ]
-        };
-        // act
-        const output = emulateAction({
-          relativePath: [...actionScripts, "io", "get_write_debug.ts"]
-        });
+    it("should return empty string if no input is placed", async function() {
+      // arrange
+      const expected = {
+        "debug": [
+          {
+            "content": "Hello !",
+            "meta": {}
+          },
+          {
+            "content": "You are  years old!",
+            "meta": {}
+          }
+        ]
+      };
+      // act
+      const output = await emulateAction({
+        relativePath: [...actionScripts, "io", "get_write_debug_2.ts"]
+      }, f.emulate);
 
-        // assert
-        output.should.deep.equal(expected);
-      });
+      // assert
+      output.should.deep.equal(expected);
     });
   });
 
   describe("getObject", function() {
     describe("with validator", function() {
-      it("should return error if its not a valid JSON", function() {
+      it("should return error if its not a valid JSON", async function() {
         // arrange
         const input = {
           person: `<html>Not JSON</html>`
@@ -76,15 +86,15 @@ describe("GithubActionIO for ActionIO", function() {
           ]
         };
         // act
-        const output = emulateAction({
+        const output = await emulateAction({
           relativePath: [...actionScripts, "io", "get_object_write_debug.ts"],
           input
-        });
+        }, f.emulate);
 
         // assert
         output.should.deep.equal(expected);
       });
-      it("should return error if the validator fails", function() {
+      it("should return error if the validator fails", async function() {
         // arrange
         const input = {
           person: `{"name":"Ernest", "age": 19, "phone":88881234,"vaccinated":true, "address":{ "block":200, "door":"17-328", "street":"jane street" }}`
@@ -98,15 +108,15 @@ describe("GithubActionIO for ActionIO", function() {
           ]
         };
         // act
-        const output = emulateAction({
-          relativePath: [...actionScripts, "io", "get_object_write_debug.ts"],
+        const output = await emulateAction({
+          relativePath: [...actionScripts, "io", "get_object_write_debug_2.ts"],
           input
-        });
+        }, f.emulate);
 
         // assert
         output.should.deep.equal(expected);
       });
-      it("should return object if its a valid object", function() {
+      it("should return object if its a valid object", async function() {
         // arrange
         const input = {
           person: `{"name":"Ernest", "age": 19, "phone":"88881234","vaccinated":true, "address":{ "block":200, "door":"17-328", "street":"jane street" }}`
@@ -136,17 +146,17 @@ describe("GithubActionIO for ActionIO", function() {
           ]
         };
         // act
-        const output = emulateAction({
-          relativePath: [...actionScripts, "io", "get_object_write_debug.ts"],
+        const output = await emulateAction({
+          relativePath: [...actionScripts, "io", "get_object_write_debug_3.ts"],
           input
-        });
+        }, f.emulate);
 
         // assert
         output.should.deep.equal(expected);
       });
     });
     describe("without validator", function() {
-      it("should return error if its not a valid JSON", function() {
+      it("should return error if its not a valid JSON", async function() {
         // arrange
         const input = {
           person: `<html>Not JSON</html>`
@@ -160,15 +170,15 @@ describe("GithubActionIO for ActionIO", function() {
           ]
         };
         // act
-        const output = emulateAction({
+        const output = await emulateAction({
           relativePath: [...actionScripts, "io", "get_object_write_debug_without_validator.ts"],
           input
-        });
+        }, f.emulate);
 
         // assert
         output.should.deep.equal(expected);
       });
-      it("should return object if its a valid object", function() {
+      it("should return object if its a valid object", async function() {
         // arrange
         const input = {
           person: `{ "key1" : "val1" , "key2" : { "key3" : "val3" } }`
@@ -182,10 +192,10 @@ describe("GithubActionIO for ActionIO", function() {
           ]
         };
         // act
-        const output = emulateAction({
-          relativePath: [...actionScripts, "io", "get_object_write_debug_without_validator.ts"],
+        const output = await emulateAction({
+          relativePath: [...actionScripts, "io", "get_object_write_debug_without_validator_2.ts"],
           input
-        });
+        }, f.emulate);
 
         // assert
         output.should.deep.equal(expected);
@@ -194,7 +204,7 @@ describe("GithubActionIO for ActionIO", function() {
   });
 
   describe("set", function() {
-    it("should set output", function() {
+    it("should set output", async function() {
       const expected = {
           "set-output": [
             {
@@ -206,12 +216,12 @@ describe("GithubActionIO for ActionIO", function() {
           ]
         }
       ;
-      const output = emulateAction({
+      const output = await emulateAction({
         relativePath: [...actionScripts, "io", "set_string_output.ts"]
-      });
+      }, f.emulate);
       output.should.deep.equal(expected);
     });
-    it("should not set output if empty value was set", function() {
+    it("should not set output if empty value was set", async function() {
       const expected = {
           "set-output": [
             {
@@ -223,29 +233,28 @@ describe("GithubActionIO for ActionIO", function() {
           ]
         }
       ;
-      const output = emulateAction({
+      const output = await emulateAction({
         relativePath: [...actionScripts, "io", "set_empty_string_output.ts"]
-      });
+      }, f.emulate);
       output.should.deep.equal(expected);
     });
   });
 
   describe("setObject", function() {
-    it("should set output", function() {
+    it("should set output", async function() {
       const expected = {
-          "set-output": [
-            {
-              content: `{"name":"Ernest","age":17}`,
-              meta: {
-                name: "first-key"
-              }
+        "set-output": [
+          {
+            content: `{"name":"Ernest","age":17}`,
+            meta: {
+              name: "first-key"
             }
-          ]
-        }
-      ;
-      const output = emulateAction({
+          }
+        ]
+      };
+      const output = await emulateAction({
         relativePath: [...actionScripts, "io", "set_object_output.ts"]
-      });
+      }, f.emulate);
       output.should.deep.equal(expected);
     });
   });

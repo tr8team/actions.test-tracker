@@ -7,6 +7,9 @@ export default defineConfig({
     include: ["**/*.spec.ts"],
     reporters: ["default"],
     testTimeout: 30000,
+    threads: true,
+    isolate: true,
+    unstubEnvs: true,
     coverage: {
       all: true,
       include: ["src/**/*.?([mc])[tj]s?(x)"],

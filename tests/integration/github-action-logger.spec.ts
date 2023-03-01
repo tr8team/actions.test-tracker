@@ -1,17 +1,26 @@
-import { should, describe, it } from "vitest";
+import { should, describe, it, afterAll, afterEach, vi } from "vitest";
 
 // @ts-ignore
-import { actionScripts, emulateAction } from "./helper.js";
+import { actionScripts, backupStdOut, emulateAction } from "./helper.js";
 
 should();
+
+const f = backupStdOut();
+afterAll(() => {
+  f.restore();
+});
+
+afterEach(() => {
+  vi.unstubAllEnvs();
+})
 
 describe("logger", function() {
 
   describe("debug", function() {
-    it("should print debug logs", function() {
-      const output = emulateAction({
+    it("should print debug logs", async function() {
+      const output = await emulateAction({
         relativePath: [...actionScripts, "logger", "debug.ts"]
-      });
+      }, f.emulate);
 
       output.should.deep.equal({
         debug: [
@@ -25,10 +34,10 @@ describe("logger", function() {
   });
 
   describe("notice", function() {
-    it("should print notice logs", function() {
-      const output = emulateAction({
+    it("should print notice logs", async function() {
+      const output = await emulateAction({
         relativePath: [...actionScripts, "logger", "notice.ts"]
-      });
+      }, f.emulate);
 
       output.should.deep.equal({
         notice: [
@@ -42,10 +51,10 @@ describe("logger", function() {
   });
 
   describe("info", function() {
-    it("should print info logs", function() {
-      const output = emulateAction({
+    it("should print info logs", async function() {
+      const output = await emulateAction({
         relativePath: [...actionScripts, "logger", "info.ts"]
-      });
+      }, f.emulate);
       output.should.deep.equal({
         info: [
           {
@@ -58,10 +67,10 @@ describe("logger", function() {
   });
 
   describe("warning", function() {
-    it("should print warning logs", function() {
-      const output = emulateAction({
+    it("should print warning logs", async function() {
+      const output = await emulateAction({
         relativePath: [...actionScripts, "logger", "warning.ts"]
-      });
+      }, f.emulate);
 
       output.should.deep.equal({
         warning: [
@@ -75,10 +84,10 @@ describe("logger", function() {
   });
 
   describe("error", function() {
-    it("should print error logs", function() {
-      const output = emulateAction({
+    it("should print error logs", async function() {
+      const output = await emulateAction({
         relativePath: [...actionScripts, "logger", "error.ts"]
-      });
+      }, f.emulate);
 
       output.should.deep.equal({
         error: [
@@ -91,10 +100,10 @@ describe("logger", function() {
     });
   });
 
-  it("should print all kind of logs", function() {
-    const output = emulateAction({
+  it("should print all kind of logs", async  function() {
+    const output = await emulateAction({
       relativePath: [...actionScripts, "logger", "mix.ts"]
-    });
+    }, f.emulate);
 
     output.should.deep.equal({
       debug: [
