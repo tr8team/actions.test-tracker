@@ -5,7 +5,7 @@ export default defineConfig({
     name: "Integration Test",
     dir: "tests/integration",
     include: ["**/*.spec.ts"],
-    reporters: ["html", "json"],
+    reporters: ["basic","html", "json"],
     testTimeout: 30000,
     outputFile: {
       html: "test-results/int/html/index.html",
@@ -18,7 +18,7 @@ export default defineConfig({
       all: true,
       include: ["src/external/**/*.?([mc])[tj]s?(x)"],
       provider: "istanbul",
-      reporter: ["html", "json-summary"],
+      reporter: ["text-summary","html", "json-summary"],
       reportsDirectory: "./test-results/int/coverage"
     }
   }

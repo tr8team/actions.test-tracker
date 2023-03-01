@@ -5,7 +5,7 @@ let env = import ./env.nix { inherit nixpkgs; }; in
     buildInputs = env.system ++ env.main ++ env.dev ++ env.lint ++ [ ];
   };
   ci = nixpkgs.mkShell {
-    buildInputs = env.system ++ env.main ++ env.lint ++ [ ];
+    buildInputs = env.system ++ env.main ++ env.lint ++ env.ci ++ [ ];
   };
   cd = nixpkgs.mkShell {
     buildInputs = env.system ++ env.releaser ++ [ ];

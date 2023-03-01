@@ -5,7 +5,7 @@ export default defineConfig({
     name: "Unit Test",
     dir: "tests/unit",
     include: ["**/*.spec.ts"],
-    reporters: ["html", "json"],
+    reporters: ["basic","html", "json"],
     outputFile: {
       html: "test-results/unit/html/index.html",
       json: "test-results/unit/result.json"
@@ -14,7 +14,7 @@ export default defineConfig({
       all: true,
       include: ["src/lib/**/*.?([mc])[tj]s?(x)"],
       provider: "istanbul",
-      reporter: ["html", "json-summary"],
+      reporter: ["text-summary","html", "json-summary"],
       reportsDirectory: "./test-results/unit/coverage"
     }
   }

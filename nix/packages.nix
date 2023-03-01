@@ -19,7 +19,7 @@ let
         inherit
           coreutils
           gnugrep
-
+          awscli2
           pre-commit
           gitlint
           nodejs-16_x

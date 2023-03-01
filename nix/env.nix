@@ -33,6 +33,10 @@ with pkgs;
     sg
   ];
 
+  ci = [
+    awscli2
+  ];
+
   releaser = [
     pls
     node18
