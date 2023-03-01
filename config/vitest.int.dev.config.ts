@@ -12,8 +12,7 @@ export default defineConfig({
     unstubEnvs: true,
     coverage: {
       all: true,
-      include: ["src/**/*.?([mc])[tj]s?(x)"],
-      exclude: ["**/interface/*.*"],
+      include: ["src/external/**/*.?([mc])[tj]s?(x)"],
       provider: "istanbul",
       reporter: ["text"]
     }

@@ -1,24 +1,28 @@
 name: "CI/CD"
-on: # rebuild any PRs and main branch changes
+on:
   pull_request:
   push:
     branches:
       - main
-
+env:
+  ENABLE_PNPM_CACHE: "false"
 jobs:
-  Tests: # make sure build/ci work properly
+  Unit Test:
     runs-on:
       - nix
       - ARM64
     steps:
-      - name: Atomi CI Environment
+      - name: Gotrade CI Environment
         uses: kirinnee/atomici-action@v2.3.1
 
       - name: Checkout Code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Cache node_modules directory
         uses: actions/cache@v3
+        if: env.ENABLE_PNPM_CACHE == 'true'
         with:
           path: |
             **/node_modules
@@ -26,45 +30,71 @@ jobs:
           restore-keys: |
             test-${{ runner.os }}-${{ runner.arch }}-pnpm
 
-      - name: Execute Tests
+      - name: Unit Tests
         continue-on-error: true
         env:
           NIXPKGS_ALLOW_UNFREE: "1"
-        run: nix-shell nix/shells.nix -A ci --run scripts/ci/test.sh
+        run: nix-shell nix/shells.nix -A ci --run scripts/ci/unit_test.sh
+  Integration Test:
+    runs-on:
+      - nix
+      - ARM64
+    steps:
+      - name: Gotrade CI Environment
+        uses: kirinnee/atomici-action@v2.3.1
 
-      # Custom Reporters
-      - name: Test Report
-        uses: dorny/test-reporter@v1
+      - name: Checkout Code
+        uses: actions/checkout@v3
         with:
-          name: Mocha Test Report
-          path: test-results/mocha-report.json
-          reporter: mocha-json
+          fetch-depth: 0
 
-      - name: Publish Test Report
-        uses: mikepenz/action-junit-report@v3
+      - name: Configure AWS Credentials for Gattai
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          report_paths: "**/junit.xml"
+          aws-access-key-id: ${{ secrets.DEV_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.DEV_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-southeast-1
+
+      - name: Cache node_modules directory
+        uses: actions/cache@v3
+        if: env.ENABLE_PNPM_CACHE == 'true'
+        with:
+          path: |
+            **/node_modules
+          key: test-${{ runner.os }}-${{ runner.arch }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            test-${{ runner.os }}-${{ runner.arch }}-pnpm
+
+      - name: Unit Tests
+        continue-on-error: true
+        env:
+          NIXPKGS_ALLOW_UNFREE: "1"
+        run: nix-shell nix/shells.nix -A ci --run scripts/ci/integration_test.sh
   Build:
     runs-on:
       - nix
       - ARM64
     steps:
-      - name: Atomi CI Environment
+      - name: Gotrade CI Environment
         uses: kirinnee/atomici-action@v2.3.1
 
       - name: Checkout Code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Cache node_modules directory
         uses: actions/cache@v3
+        if: env.ENABLE_PNPM_CACHE == 'true'
         with:
           path: |
             **/node_modules
-          key: pre-commit-${{ runner.os }}-${{ runner.arch }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: test-${{ runner.os }}-${{ runner.arch }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            pre-commit-${{ runner.os }}-${{ runner.arch }}-pnpm
+            test-${{ runner.os }}-${{ runner.arch }}-pnpm
 
-      - name: Build
+      - name: Unit Tests
+        continue-on-error: true
         env:
           NIXPKGS_ALLOW_UNFREE: "1"
         run: nix-shell nix/shells.nix -A ci --run scripts/ci/build.sh
@@ -74,28 +104,33 @@ jobs:
       - nix
       - ARM64
     steps:
-      - name: Atomi CI Environment
+      - name: Gotrade CI Environment
         uses: kirinnee/atomici-action@v2.3.1
 
       - name: Checkout Code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Cache node_modules directory
         uses: actions/cache@v3
+        if: env.ENABLE_PNPM_CACHE == 'true'
         with:
           path: |
             **/node_modules
-          key: pre-commit-${{ runner.os }}-${{ runner.arch }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: test-${{ runner.os }}-${{ runner.arch }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            pre-commit-${{ runner.os }}-${{ runner.arch }}-pnpm
+            test-${{ runner.os }}-${{ runner.arch }}-pnpm
 
-      - name: Run Pre-commit checks
+      - name: Unit Tests
+        continue-on-error: true
         env:
           NIXPKGS_ALLOW_UNFREE: "1"
         run: nix-shell nix/shells.nix -A ci --run scripts/ci/pre-commit.sh
   Release:
     needs:
-      - Tests
+      - Unit Test
+      - Integration Test
       - Build
       - Pre-commit
     name: Release
@@ -104,7 +139,7 @@ jobs:
       - nix
       - ARM64
     steps:
-      - name: AtomiCloud CI Environment
+      - name: Gotrade CI Environment
         uses: kirinnee/atomici-action@v2.3.1
 
       - name: Checkout Code

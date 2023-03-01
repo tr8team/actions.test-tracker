@@ -11,10 +11,12 @@ export default defineConfig({
       html: "test-results/int/html/index.html",
       json: "test-results/int/result.json"
     },
+    threads: true,
+    isolate: true,
+    unstubEnvs: true,
     coverage: {
       all: true,
-      include: ["src/**/*.?([mc])[tj]s?(x)"],
-      exclude: ["**/interface/*.*"],
+      include: ["src/external/**/*.?([mc])[tj]s?(x)"],
       provider: "istanbul",
       reporter: ["html", "json-summary"],
       reportsDirectory: "./test-results/int/coverage"

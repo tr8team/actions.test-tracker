@@ -6,11 +6,18 @@ tasks:
     cmds:
       - task: pre-commit
       - task: node
+      - task: secrets
   force:
     desc: Force Setup the repository for development
     cmds:
       - rm -rf .task
       - task: default
+  secrets:
+    desc: Downloads secrets necessary for testing
+    sources:
+      - config/GattaiFile.yaml
+    cmds:
+      - gattai run out secrets_local config/GattaiFile.yaml
   pre-commit:
     desc: Setup Pre-Commit
     sources:

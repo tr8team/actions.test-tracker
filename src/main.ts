@@ -16,27 +16,37 @@ import { HistoryService, IHistoryService } from "./lib/service.js";
 import { ILogger } from "./lib/interface/logger.js";
 import { setFailed } from "@actions/core";
 
-const io: ActionIO = new GithubActionIO();
-const log: ILogger = new GithubActionLogger();
-const auth = io.get("github_token");
-const gistId = io.get("gist_id");
-const ok = new Octokit({ auth });
-const kv: KeyValueRepository = new GistKeyValue(ok, gistId);
-const context: ContextRetriever = new GithubActionContextRetriever();
-const inputValidator: Validator<InputArray> = new ZodValidatorAdapter(
-  inputArray
-);
-const input: InputRetriever = new IoInputRetriever(io, context, inputValidator);
+async function main(): Promise<void> {
+  const io: ActionIO = new GithubActionIO();
+  const log: ILogger = new GithubActionLogger();
+  const auth = io.get("github_token");
+  const gistId = io.get("gist_id");
+  const ok = new Octokit({ auth });
+  const kv: KeyValueRepository = new GistKeyValue(ok, gistId);
+  const context: ContextRetriever = new GithubActionContextRetriever();
+  const inputValidator: Validator<InputArray> = new ZodValidatorAdapter(
+    inputArray
+  );
+  const input: InputRetriever = new IoInputRetriever(
+    io,
+    context,
+    inputValidator
+  );
 
-const service: IHistoryService = new HistoryService(kv);
-const app = new App(io, input, service);
+  const service: IHistoryService = new HistoryService(kv);
+  const app = new App(io, input, service);
 
-await app.start().match({
-  none: () => {
-    log.info("✅ Successfully tracked commit artifact metadata");
-  },
-  some: (err) => {
-    log.error("❌ Failed to track commit artifact metadata");
-    setFailed(err);
-  },
-});
+  await app.start().match({
+    none: () => {
+      log.info("✅ Successfully tracked commit artifact metadata");
+    },
+    some: (err) => {
+      log.error("❌ Failed to track commit artifact metadata");
+      setFailed(err);
+    },
+  });
+}
+
+await main();
+
+export { main };

@@ -36,52 +36,57 @@ All dependencies are pre-install via `nix` and activated via `direnv`
 - [Nix](https://nixos.org/) > 2.12.0
 - [direnv](https://direnv.net/) > 2.23.2
 - [Docker](https://hub.docker.com/)
+- Access to Gotrade AWS Dev Secrets Manager
 
 ## Get Started
 
-Setup the repository
+Setup the repository. This is automatically executed if you have `direnv`
 
 ```
 pls setup
 ```
 
-Running tests
+Running unit tests
 
 ```
 pls test
 ```
 
-Check test coverage
+## Development
 
-```
-pls test:cover
-```
+The task runner has convenience commands for development and testing
+
+| Action                               | Command               | Aliases          |
+| ------------------------------------ | --------------------- | ---------------- |
+| Setup the repository                 | `pls setup`           | `-`              |
+| Force re-setup by invalidating cache | `pls setup:force`     | `-`              |
+| Build the project                    | `pls build`           | `-`              |
+| Clean all artifacts                  | `pls clean`           | `-`              |
+| Run unit test                        | `pls test:unit`       | `pls test`       |
+| Watch unit test                      | `pls test:unit:watch` | `pls test:watch` |
+| Unit Test Coverage                   | `pls test:unit:cover` | `-`              |
+| Run integration test                 | `pls test:int`        | `-`              |
+| Watch integration test               | `pls test:int:watch`  | `-`              |
+| Integration Test Coverage            | `pls test:int:cover`  | `-`              |
+| Generate Test Reports                | `pls test:report`     | `-`              |
+
+You can check `Taskfile.yml` and `scripts` folder for more commands.
 
 ## Quality Assurance
 
-Running all checks
+The task runner has convenience commands for basic quality assurance
 
-```
-pls check
-```
+| Action                   | Command              |
+| ------------------------ | -------------------- |
+| Run all Checks           | `pls check`          |
+| Run all enforcers        | `pls enforce`        |
+| Run all formatters       | `pls fmt`            |
+| Run all linters          | `pls lint`           |
+| Run a specific enforcer  | `pls enforce:<type>` |
+| Run a specific formatter | `pls fmt:<type>`     |
+| Run a specific linter    | `pls lint:<type>`    |
 
-Run Formatters
-
-```
-pls fmt
-```
-
-Run Linters
-
-```
-pls lint
-```
-
-Run Enforcers
-
-```
-pls enforce
-```
+You can check `Taskfile.yml` and `scripts` folder for more commands.
 
 ## Working with CI
 
@@ -90,7 +95,8 @@ CI Checks include:
 
 - Build
 - Pre Commit
-- Test
+- Unit Test
+- Integration Test
 
 ### Dropping into an emulated environment
 
@@ -110,67 +116,41 @@ pls ci:isolate:nix-shell
 
 This ensures that the commit can be built by compiling TypeScript to JavaScript and using ncc to merge into a single distributable file.
 
-To run this CI:
-
-```
-pls ci:build
-```
-
-To run it in fully emulated CI environment:
-
-```
-pls ci:emulate:build
-```
-
-To stay in the fully emulated CI envionrment after the action is completed:
-
-```
-pls ci:emulate:build:debug
-```
+| Action                                                  | Command                |
+| ------------------------------------------------------- | ---------------------- |
+| Execute Build locally                                   | `pls ci:build`         |
+| Execute Build in fully emulated CI Environment          | `pls ci:build:emulate` |
+| Execute Build and drop in fully emulated CI Environment | `pls ci:build:debug`   |
 
 ### Pre-Commit
 
 This ensures that the commit passes all pre-commit checks, such as linting and formatting
 
-To run this CI:
+| Action                                                       | Command                     |
+| ------------------------------------------------------------ | --------------------------- |
+| Execute Pre-Commit locally                                   | `pls ci:pre-commit`         |
+| Execute Pre-Commit in fully emulated CI Environment          | `pls ci:pre-commit:emulate` |
+| Execute Pre-Commit and drop in fully emulated CI Environment | `pls ci:pre-commit:debug`   |
 
-```
-pls ci:precommit
-```
+### Unit Test
 
-To run it in fully emulated CI environment:
+Execute all unit tests and generates the report for downstream CI to consume
 
-```
-pls ci:emulate:precommit
-```
+| Action                                                       | Command                    |
+| ------------------------------------------------------------ | -------------------------- |
+| Execute Unit tests locally                                   | `pls ci:unit-test`         |
+| Execute Unit tests in fully emulated CI Environment          | `pls ci:unit-test:emulate` |
+| Execute Unit tests and drop in fully emulated CI Environment | `pls ci:unit-test:debug`   |
 
-To stay in the fully emulated CI envionrment after the action is completed:
+### Integration Test
 
-```
-pls ci:emulate:precommit:debug
-```
+Execute all unit tests and generates the report for downstream CI to consume
 
-### Test
-
-This ensure all test pass and ensures test coverage is above a certain threshold. It also generates reports necessary for publishing
-
-To run this CI:
-
-```
-pls ci:test
-```
-
-To run it in fully emulated CI environment:
-
-```
-pls ci:emulate:test
-```
-
-To stay in the fully emulated CI envionrment after the action is completed:
-
-```
-pls ci:emulate:test:debug
-```
+| Action                                                              | Command                           |
+| ------------------------------------------------------------------- | --------------------------------- |
+| Execute Integration tests locally                                   | `pls ci:integration-test`         |
+| Execute Integration tests in fully emulated CI Environment          | `pls ci:integration-test:emulate` |
+| Execute Integration tests and drop in fully emulated CI Environment | `pls ci:integration-test:debug`   |
 
 ## Change action.yml
 
@@ -185,23 +165,29 @@ See the [documentation](https://help.github.com/en/articles/metadata-syntax-for-
 Most toolkit and CI/CD operations involve async operations so the action is run in an async function.
 
 ```javascript
-import * as core from '@actions/core';
-...
+import * as core from "@actions/core";
+
+// ...
 
 async function run() {
   try {
-      ...
-  }
-  catch (error) {
+    // ...
+  } catch (error) {
     core.setFailed(error.message);
   }
 }
 
-run()
+run();
 ```
 
 See the [toolkit documentation](https://github.com/actions/toolkit/blob/master/README.md#packages) for the various packages.
 
 ## Publishing an action
 
-This repository has configured Semantic Releaser with conventional commits. By simply merging to the `main` branch, the action will automatically released.
+This repository has configured Semantic Releaser with conventional commits. By simply merging to the `main` branch, the action will automatically be released.
+
+# FAQ
+
+# Author
+
+- [Ernest (ESD)](mailto:ernest@tr8.io)

@@ -34,7 +34,7 @@ tasks:
     desc: Generate report for unit tests
     cmds:
       - vitest run --config ./config/vitest.unit.report.config.ts --coverage {{.CLI_ARGS}}
-      - find test-results/unit/html \( ! -regex '.*/\..*' \) -type f | xargs sed -i 's/__vitest__\///g'
+      - find test-results/unit/html \( ! -regex '.*/\..*' \) -type f -exec sed -i 's/__vitest__\///g' {} +
 
   # Integration tests
   int:
@@ -58,7 +58,7 @@ tasks:
     desc: Generate report for integration tests
     cmds:
       - vitest run --config ./config/vitest.int.report.config.ts --coverage {{.CLI_ARGS}}
-      - find test-results/int/html \( ! -regex '.*/\..*' \) -type f | xargs sed -i 's/__vitest__\///g'
+      - find test-results/int/html \( ! -regex '.*/\..*' \) -type f -exec sed -i 's/__vitest__\///g' {} +
 
   # util
   clean:
