@@ -75,6 +75,7 @@ describe("ContextRetriever", function(){
           eventName: "pull_request",
           workflow:"ci.yaml",
           actor:"ec2",
+          repository: "tr8team/gotrade-infra",
         }
       }, f.emulate);
 
@@ -138,6 +139,7 @@ describe("ContextRetriever", function(){
           eventName: "push",
           workflow:"ci.yaml",
           actor:"ec2",
+          repository: "tr8team/gotrade-infra",
         }
       }, f.emulate);
 

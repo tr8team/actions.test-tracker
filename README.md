@@ -54,21 +54,36 @@ pls test
 
 ## Development
 
-The task runner has convenience commands for development and testing
+The task runner has convenience commands for development
 
-| Action                               | Command               | Aliases          |
-| ------------------------------------ | --------------------- | ---------------- |
-| Setup the repository                 | `pls setup`           | `-`              |
-| Force re-setup by invalidating cache | `pls setup:force`     | `-`              |
-| Build the project                    | `pls build`           | `-`              |
-| Clean all artifacts                  | `pls clean`           | `-`              |
-| Run unit test                        | `pls test:unit`       | `pls test`       |
-| Watch unit test                      | `pls test:unit:watch` | `pls test:watch` |
-| Unit Test Coverage                   | `pls test:unit:cover` | `-`              |
-| Run integration test                 | `pls test:int`        | `-`              |
-| Watch integration test               | `pls test:int:watch`  | `-`              |
-| Integration Test Coverage            | `pls test:int:cover`  | `-`              |
-| Generate Test Reports                | `pls test:report`     | `-`              |
+| Action                               | Command           |
+| ------------------------------------ | ----------------- |
+| Setup the repository                 | `pls setup`       |
+| Force re-setup by invalidating cache | `pls setup:force` |
+| Build the project                    | `pls build`       |
+| Clean all artifacts                  | `pls clean`       |
+
+## Testing
+
+The task runner has convenience commands for testing
+
+| Action                    | Command               | Alias            |
+| ------------------------- | --------------------- | ---------------- |
+| Run unit test             | `pls test:unit`       | `pls test`       |
+| Watch unit test           | `pls test:unit:watch` | `pls test:watch` |
+| Unit Test Coverage        | `pls test:unit:cover` | `-`              |
+| Run integration test      | `pls test:int`        | `-`              |
+| Watch integration test    | `pls test:int:watch`  | `-`              |
+| Integration Test Coverage | `pls test:int:cover`  | `-`              |
+| Generate Test Reports     | `pls test:report`     | `-`              |
+
+You can additionally filter tests by adding the filter (contains):
+
+```bash
+pls test:int -- fast
+```
+
+The above will only run test file names containing the word `fast`
 
 You can check `Taskfile.yml` and `scripts` folder for more commands.
 
