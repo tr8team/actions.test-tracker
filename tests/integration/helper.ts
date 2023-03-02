@@ -104,6 +104,7 @@ export async function emulateAction({
   await import(path.join("..", "..", ...relativePath));
   const output = result();
 
+  console.log(output);
   return output
     .map((str) => {
 
