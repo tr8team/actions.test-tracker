@@ -31,7 +31,6 @@ jobs:
             test-${{ runner.os }}-${{ runner.arch }}-pnpm
 
       - name: Unit Tests
-        continue-on-error: true
         env:
           NIXPKGS_ALLOW_UNFREE: "1"
         run: nix-shell nix/shells.nix -A ci --run scripts/ci/unit_test.sh
@@ -65,11 +64,11 @@ jobs:
           restore-keys: |
             test-${{ runner.os }}-${{ runner.arch }}-pnpm
 
-      - name: Unit Tests
-        continue-on-error: true
+      - name: Integration Tests
         env:
           NIXPKGS_ALLOW_UNFREE: "1"
         run: nix-shell nix/shells.nix -A ci --run scripts/ci/integration_test.sh
+
   Build:
     runs-on:
       - nix
