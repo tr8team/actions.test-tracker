@@ -76,6 +76,7 @@ export async function emulateAction({
   input,
   context,
 }: ActionInput, emulator: () => (()=>string[])): Promise<ActionOutput> {
+  vi.stubEnv("GITHUB_OUTPUT", '');
   if(input != null) {
     for (const key in input) {
       if (input.hasOwnProperty(key)) {
@@ -103,8 +104,6 @@ export async function emulateAction({
   const result = emulator();
   await import(path.join("..", "..", ...relativePath));
   const output = result();
-
-  console.log(output);
   return output
     .map((str) => {
 
