@@ -38,9 +38,7 @@ with pkgs;
   ];
 
   releaser = [
-    pls
     node18
     sg
-    prettier
   ];
 }

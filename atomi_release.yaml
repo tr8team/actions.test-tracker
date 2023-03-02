@@ -23,10 +23,6 @@ plugins:
   - module: "@semantic-release/changelog"
     config:
       changelogFile: Changelog.md
-  - module: "@semantic-release/exec"
-    config:
-      prepareCmd: prettier -w Changelog.md
-
   - module: "@semantic-release/git"
     config:
       message: "release: ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"

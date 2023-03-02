@@ -23,7 +23,7 @@ repos:
       - id: yamlfmt
         exclude: ^.*node_modules.*$
       - id: mdfmt
-        exclude: ^.*node_modules.*$
+        exclude: ^(.*node_modules.*|Changelog.md)$
       - id: nixfmt
       - id: shfmt
       - id: jsonfmt

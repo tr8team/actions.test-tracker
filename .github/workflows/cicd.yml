@@ -68,7 +68,6 @@ jobs:
         env:
           NIXPKGS_ALLOW_UNFREE: "1"
         run: nix-shell nix/shells.nix -A ci --run scripts/ci/integration_test.sh
-
   Build:
     runs-on:
       - nix
@@ -125,6 +124,8 @@ jobs:
         env:
           NIXPKGS_ALLOW_UNFREE: "1"
         run: nix-shell nix/shells.nix -A ci --run scripts/ci/pre-commit.sh
+
+  # Only on main branch
   Release:
     needs:
       - UnitTest
