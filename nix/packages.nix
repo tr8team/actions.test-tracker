@@ -8,28 +8,31 @@ let
       }
     );
     atomi = (
-      with import (fetchTarball "https://github.com/kirinnee/test-nix-repo/archive/refs/tags/v15.2.0.tar.gz");
+      with import (fetchTarball "https://github.com/kirinnee/test-nix-repo/archive/refs/tags/v17.0.0.tar.gz");
       {
-        inherit pls webstorm precommit-patch-nix;
+        inherit pls precommit-patch-nix gattai;
       }
     );
-    "Unstable 8th Jan 2023" = (
-      with import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/b3818a46e686f24561a28eaa9fcf35e18b8d8e89.tar.gz") { };
+    "Unstable 21st Feb 2023" = (
+      with import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/5ab8b5ae26e6a4b781bdebdfd131c054f0b96e70.tar.gz") { };
       {
         inherit
           coreutils
           gnugrep
-
+          awscli2
           pre-commit
           gitlint
           nodejs-16_x
           jq
           nixpkgs-fmt
           shfmt
+          findutils
+          gnused
           shellcheck;
 
         node18 = nodejs;
 
+        webstorm = jetbrains.webstorm;
         prettier = nodePackages.prettier;
         pnpm = nodePackages.pnpm;
       }
@@ -39,4 +42,4 @@ in
 with pkgs;
 atomi //
 atomi_classic //
-pkgs."Unstable 8th Jan 2023"
+pkgs."Unstable 21st Feb 2023"

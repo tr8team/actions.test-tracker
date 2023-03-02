@@ -1,6 +1,13 @@
 # Dependency directory
 node_modules
 
+.idea
+.vscode
+.task
+
+# secrets
+secrets.json
+
 # nix
 .direnv
 

@@ -2,50 +2,65 @@ version: "3"
 
 tasks:
   default:
-    desc: Run all tests
+    desc: Run all unit tests
     cmds:
-      - mocha --config ./config/.mocharc.js
+      - task: unit
   watch:
-    desc: Run all tests with auto-reload
+    desc: Run unit tests with auto-reload
     cmds:
-      - mocha --config ./config/.mocharc.js --watch --reporter min
-  cover:
-    desc: Run all tests and generate coverage
-    cmds:
-      - nyc --nycrc-path ./config/.nycrc.text.json mocha --config ./config/.mocharc.js
-
+      - task: unit:watch
   report:
-    desc: Generate all reports for tests
+    desc: Generate unit tests and integration tests reports
     deps:
-      - report:json
-      - report:xml
-      - report:html
+      - unit:report
+      - int:report
+  # Unit Tests
+  unit:
+    desc: Run unit tests
     cmds:
-      - task: report:cover
+      - vitest run --config ./config/vitest.unit.dev.config.ts {{.CLI_ARGS}}
 
-  report:json:
-    ignore_error: true
-    desc: Generate test report in JSON
+  unit:watch:
+    desc: Run unit tests with auto-reload
     cmds:
-      - mocha --config ./config/.mocharc.json.js
+      - vitest watch --config ./config/vitest.unit.dev.config.ts {{.CLI_ARGS}}
 
-  report:xml:
-    ignore_error: true
-    desc: Generate test report in Junit XML format
+  unit:cover:
+    desc: Run unit test and generate coverage
     cmds:
-      - mocha --config ./config/.mocharc.xml.js
+      - vitest run --config ./config/vitest.unit.dev.config.ts --coverage {{.CLI_ARGS}}
 
-  report:html:
-    ignore_error: true
-    desc: Generate test report in HTML format
+  unit:report:
+    desc: Generate report for unit tests
     cmds:
-      - mocha --config ./config/.mocharc.html.js
+      - vitest run --config ./config/vitest.unit.report.config.ts --coverage {{.CLI_ARGS}}
+      - find test-results/unit/html \( ! -regex '.*/\..*' \) -type f -exec sed -i 's/__vitest__\///g' {} +
 
-  report:cover:
-    desc: Generate test coverage report in lcov and HTML format
+  # Integration tests
+  int:
+    desc: Run integration tests
     cmds:
-      - nyc --nycrc-path config/.nycrc.report.json mocha --config ./config/.mocharc.js
+      - vitest run --config ./config/vitest.int.dev.config.ts {{.CLI_ARGS}}
 
+  int:watch:
+    desc: Run integration tests with auto-reload
+    interactive: true
+    cmds:
+      - vitest watch --config ./config/vitest.int.dev.config.ts {{.CLI_ARGS}}
+
+  int:cover:
+    desc: Run integration test and generate coverage
+    interactive: true
+    cmds:
+      - vitest run --config ./config/vitest.int.dev.config.ts --coverage {{.CLI_ARGS}}
+
+  int:report:
+    desc: Generate report for integration tests
+    cmds:
+      - vitest run --config ./config/vitest.int.report.config.ts --coverage {{.CLI_ARGS}}
+      - find test-results/int/html \( ! -regex '.*/\..*' \) -type f -exec sed -i 's/__vitest__\///g' {} +
+
+  # util
   clean:
     desc: Cleans up ephemeral test artifacts
     ignore_error: true

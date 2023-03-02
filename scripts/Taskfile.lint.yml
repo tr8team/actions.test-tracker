@@ -5,10 +5,10 @@ includes:
 tasks:
   default:
     desc: Run all linters
-    deps:
-      - docker
-      - sh
-      - ts
+    cmds:
+      - task: docker
+      - task: sh
+      - task: ts
 
   ts:
     desc: Lints TypeScript, JavaScript and JSON

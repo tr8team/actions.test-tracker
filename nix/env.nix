@@ -5,12 +5,16 @@ with pkgs;
   system = [
     coreutils
     gnugrep
+    findutils
+    gnused
+    jq
   ];
 
   main = [
     pls
     nodejs-16_x
     pnpm
+    gattai
   ];
 
   dev = [
@@ -27,6 +31,10 @@ with pkgs;
     shellcheck
     gitlint
     sg
+  ];
+
+  ci = [
+    awscli2
   ];
 
   releaser = [
