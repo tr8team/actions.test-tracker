@@ -1,3 +1,24 @@
+## 1.0.0 (2023-03-02)
+
+### Features
+
+- added gist as a key-value store ([ab747be](https://github.com/tr8team/test-tracker/commit/ab747bea3659b32e743627e86092189bc077261c))
+- added GitHub action io interfaces and tests ([64d89d4](https://github.com/tr8team/test-tracker/commit/64d89d4739b3a239975eee6a5c81611170685dea))
+- added logger interface with GitHub action ([74871f5](https://github.com/tr8team/test-tracker/commit/74871f506e3b3c40533da08d719a2085c6495aef))
+- basic input structure and validation ([a463e2b](https://github.com/tr8team/test-tracker/commit/a463e2b1a649cb55bd6881e0f71c19af3edb724d))
+- deprecate mocha ([baff096](https://github.com/tr8team/test-tracker/commit/baff0962f28dec56a7767dc8436a6c68a517ecd0))
+- migrate to vitest ([a65bb3c](https://github.com/tr8team/test-tracker/commit/a65bb3c15481cf255a5d7c9b85d243e7cfb4694e))
+- service and main ([cc9cc18](https://github.com/tr8team/test-tracker/commit/cc9cc182170af307d66402208dd432d32b18ceb0))
+- utility for converting validation to result type ([7ac4e71](https://github.com/tr8team/test-tracker/commit/7ac4e7171ba41ec63e14ac231f668870ec19698f))
+- working CI ([4a1bc3d](https://github.com/tr8team/test-tracker/commit/4a1bc3dd196cce4ddc8ca3adf5ace08191091737))
+- working CI ([9c3e2b2](https://github.com/tr8team/test-tracker/commit/9c3e2b2d49d91cf5546f6f786f18139aa1eb4fe3))
+
+### Bug Fixes
+
+- CI ([d780d87](https://github.com/tr8team/test-tracker/commit/d780d8791d07754936872b604a5049b225a4176c))
+- integration tests failing ([b0e6497](https://github.com/tr8team/test-tracker/commit/b0e64979980eda231f81c967e96aff078c9c80dc))
+- using GITHUB OUTPUT in tests ([76d2a00](https://github.com/tr8team/test-tracker/commit/76d2a006ff36b55d7ffe5ed0e681b2eaf0a1f697))
+
 ## [1.2.1](https://github.com/tr8team/typescript-github-action-template/compare/v1.2.0...v1.2.1) (2023-01-09)
 
 ### Bug Fixes
