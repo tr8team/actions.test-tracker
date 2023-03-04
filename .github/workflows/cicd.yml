@@ -7,6 +7,39 @@ on:
 env:
   ENABLE_PNPM_CACHE: "false"
 jobs:
+  Sample:
+    runs-on:
+      - nix
+      - ARM64
+    steps:
+      - name: Test Tracker
+        uses: tr8team/test-tracker@v1.1.0
+        with:
+          data: |
+            [
+              {
+                  "name": "Unit Test Results",
+                  "url": "https://test-results/sha",
+                  "data": {
+                    "type": "test-result",
+                    "pass": 210,
+                    "skip": 3,
+                    "fail": 1
+                  }
+              },
+              {
+                "name": "Code Quality",
+                "url": "https://link.to.code_quality/for/this-commit",
+                "data": {
+                  "type": "code-quality",
+                  "qualityRating": "A-"
+                }
+              }
+            ]
+          gist_id: "68802df132b2d7ca81e2438188ae131c" # id of Gist to persist data
+          github_token: ${{ secrets.GIST_TOKEN }} # GitHub Token with Gist read-write permission
+          prefix: "sample-" # prefix to append to all keys of the tracking mechanism
+
   UnitTest:
     runs-on:
       - nix
@@ -34,6 +67,7 @@ jobs:
         env:
           NIXPKGS_ALLOW_UNFREE: "1"
         run: nix-shell nix/shells.nix -A ci --run scripts/ci/unit_test.sh
+
   IntegrationTest:
     runs-on:
       - nix
