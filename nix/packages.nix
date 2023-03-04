@@ -8,9 +8,9 @@ let
       }
     );
     atomi = (
-      with import (fetchTarball "https://github.com/kirinnee/test-nix-repo/archive/refs/tags/v17.0.0.tar.gz");
+      with import (fetchTarball "https://github.com/kirinnee/test-nix-repo/archive/refs/tags/v17.1.0.tar.gz");
       {
-        inherit pls precommit-patch-nix gattai;
+        inherit pls precommit-patch-nix gattai action_docs;
       }
     );
     "Unstable 21st Feb 2023" = (
@@ -28,6 +28,7 @@ let
           shfmt
           findutils
           gnused
+          git
           shellcheck;
 
         node18 = nodejs;

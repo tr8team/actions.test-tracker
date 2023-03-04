@@ -23,6 +23,7 @@ with pkgs;
   ];
 
   lint = [
+    action_docs
     precommit-patch-nix
     pre-commit
     nixpkgs-fmt
@@ -34,6 +35,7 @@ with pkgs;
   ];
 
   ci = [
+    git
     awscli2
   ];
 
