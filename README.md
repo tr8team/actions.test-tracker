@@ -1,207 +1,192 @@
-[![CI/CD](https://github.com/tr8team/typescript-github-action-template/actions/workflows/cicd.yml/badge.svg)](https://github.com/tr8team/typescript-github-action-template/actions/workflows/cicd.yml)
+# Test-Tracker
 
-# Create a JavaScript Action using TypeScript
+Tracks and store historic information about CIs such as:
 
-Use this template to bootstrap the creation of a TypeScript action.:rocket:
+- Test Result
+- Documentation
+- Test Coverage
+- Code Quality
 
-This template includes:
+Uses Gist to persist data.
 
-- [Nix](https://nixos.org/)
-- [direnv](https://direnv.net/)
-- [Taskfile](https://taskfile.dev/)
-- Test
-  - Framework: [Mocha](https://mochajs.org/)
-  - Assertion: [Chai](https://www.chaijs.com/)
-  - Coverage: [NYC](https://istanbul.js.org/)
-- Dependabot
-- [Semantic Releaser](https://semantic-release.gitbook.io/semantic-release/usage/configuration) with [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/)
-- Linters
-  - [ES Lint](https://eslint.org/)
-  - [shellcheck](https://www.shellcheck.net/)
-  - [gitlint](https://jorisroovers.com/gitlint/)
-- Formatters
-  - [shfmt](https://github.com/mvdan/sh)
-  - [prettier](https://prettier.io/)
-  - [nixpkgs-fmt](https://github.com/nix-community/nixpkgs-fmt)
-- [Pre-commit](https://pre-commit.com/)
+# Get Started
 
-## Create an action from this template
+This job depends on other jobs to source and extract data before it is persisted:
 
-Click the `Use this Template` and provide the new repo details for your action
-
-## Pre-requisite
-
-All dependencies are pre-install via `nix` and activated via `direnv`
-
-- [Nix](https://nixos.org/) > 2.12.0
-- [direnv](https://direnv.net/) > 2.23.2
-- [Docker](https://hub.docker.com/)
-- Access to Gotrade AWS Dev Secrets Manager
-
-## Get Started
-
-Setup the repository. This is automatically executed if you have `direnv`
-
-```
-pls setup
+```yaml
+name: Example Workflow
+on: push
+jobs:
+  Test:
+    runs-on: ubuntu-latest
+    steps:
+      # insert Test step here
+      - name: Test Tracker
+        id: test-tracker
+        uses: tr8team/test-tracker@v1.0.0
+        with:
+          data: "[]" # insert the data you need to track here
+          gist_id: "" # id of Gist to persist data
+          github_token: "" # GitHub Token with Gist read-write permission
+          prefix: "" # prefix to append to all keys of the tracking mechanism
 ```
 
-Running unit tests
+<!-- prettier-ignore-start -->
+<!-- action-docs-inputs -->
+## Inputs
 
-```
-pls test
-```
+| parameter | description | required | default |
+| --- | --- | --- | --- |
+| data | Test Data to Persist. Should be Array of [Input](#input-schema) | `true` | [] |
+| gist_id | Gist ID to use as persistent store | `true` |  |
+| github_token | GitHub action token with Gist Permission | `true` |  |
+| prefix | Prefix for Key Storage | `false` |  |
+| sha | Use this SHA instead of commit SHA | `false` |  |
+| url | Use this as the repository URL instead of auto-detection | `false` |  |
+<!-- action-docs-inputs -->
 
-## Development
+<!-- action-docs-outputs -->
+## Outputs
 
-The task runner has convenience commands for development
+| parameter | description |
+| --- | --- |
+| current | The current commit's history entry. Type of [HistoryEntry](#history-entry-schema) |
+| before | The whole history of this PR, excluding this commit. Null if not a PR. Type of [HistoryEntry](#history-entry-schema) |
+| after | The whole history of this PR, including this commit. Null if not a PR. Type of [HistoryEntry](#history-entry-schema) |
+| base | The history entry of the a base commit of the PR. Null if not PR or if base commit has nothing stored. Type of [HistoryEntry](#history-entry-schema) |
+<!-- action-docs-outputs -->
 
-| Action                               | Command           |
-| ------------------------------------ | ----------------- |
-| Setup the repository                 | `pls setup`       |
-| Force re-setup by invalidating cache | `pls setup:force` |
-| Build the project                    | `pls build`       |
-| Clean all artifacts                  | `pls clean`       |
+<!-- action-docs-runs -->
+## Runs
 
-## Testing
+This action is a `node16` action.
+<!-- action-docs-runs -->
+<!-- prettier-ignore-end -->
 
-The task runner has convenience commands for testing
+## Input Schema
 
-| Action                    | Command               | Alias            |
-| ------------------------- | --------------------- | ---------------- |
-| Run unit test             | `pls test:unit`       | `pls test`       |
-| Watch unit test           | `pls test:unit:watch` | `pls test:watch` |
-| Unit Test Coverage        | `pls test:unit:cover` | `-`              |
-| Run integration test      | `pls test:int`        | `-`              |
-| Watch integration test    | `pls test:int:watch`  | `-`              |
-| Integration Test Coverage | `pls test:int:cover`  | `-`              |
-| Generate Test Reports     | `pls test:report`     | `-`              |
+Test tracker can store an array of data related a specific commit or for a PR.
 
-You can additionally filter tests by adding the filter (contains):
+Below is an example of a single input:
 
-```bash
-pls test:int -- fast
-```
-
-The above will only run test file names containing the word `fast`
-
-You can check `Taskfile.yml` and `scripts` folder for more commands.
-
-## Quality Assurance
-
-The task runner has convenience commands for basic quality assurance
-
-| Action                   | Command              |
-| ------------------------ | -------------------- |
-| Run all Checks           | `pls check`          |
-| Run all enforcers        | `pls enforce`        |
-| Run all formatters       | `pls fmt`            |
-| Run all linters          | `pls lint`           |
-| Run a specific enforcer  | `pls enforce:<type>` |
-| Run a specific formatter | `pls fmt:<type>`     |
-| Run a specific linter    | `pls lint:<type>`    |
-
-You can check `Taskfile.yml` and `scripts` folder for more commands.
-
-## Working with CI
-
-This template comes with in-built tools to debug CI.
-CI Checks include:
-
-- Build
-- Pre Commit
-- Unit Test
-- Integration Test
-
-### Dropping into an emulated environment
-
-To enter an isolated CI-like environment to play around or test, run:
-
-```
-pls ci:isolate
+```yaml
+name: Unit Test Results
+url: https://test-results/sha
+data:
+  type: "test-result"
+  pass: 210
+  skip: 3
+  fail: 1
 ```
 
-If you require to enter the `nix-shell` under the `ci` attribute, you can run:
+| Key    | Description                                                                                                                                                                            |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name` | Uniquely identify the type of data to see across commits                                                                                                                               |
+| `url`  | Url to the webpage to see the extra details of this data                                                                                                                               |
+| `data` | Metadata attached for post-processing, summaries or quality gates. Currently supports Documentation, Code Quality, Test Result and Test coverage. Each data is different for each type |
 
-```
-pls ci:isolate:nix-shell
-```
+#### Documentation
 
-### Build
+Since there are no metadata related to documents, this is simply:
 
-This ensures that the commit can be built by compiling TypeScript to JavaScript and using ncc to merge into a single distributable file.
-
-| Action                                                  | Command                |
-| ------------------------------------------------------- | ---------------------- |
-| Execute Build locally                                   | `pls ci:build`         |
-| Execute Build in fully emulated CI Environment          | `pls ci:build:emulate` |
-| Execute Build and drop in fully emulated CI Environment | `pls ci:build:debug`   |
-
-### Pre-Commit
-
-This ensures that the commit passes all pre-commit checks, such as linting and formatting
-
-| Action                                                       | Command                     |
-| ------------------------------------------------------------ | --------------------------- |
-| Execute Pre-Commit locally                                   | `pls ci:pre-commit`         |
-| Execute Pre-Commit in fully emulated CI Environment          | `pls ci:pre-commit:emulate` |
-| Execute Pre-Commit and drop in fully emulated CI Environment | `pls ci:pre-commit:debug`   |
-
-### Unit Test
-
-Execute all unit tests and generates the report for downstream CI to consume
-
-| Action                                                       | Command                    |
-| ------------------------------------------------------------ | -------------------------- |
-| Execute Unit tests locally                                   | `pls ci:unit-test`         |
-| Execute Unit tests in fully emulated CI Environment          | `pls ci:unit-test:emulate` |
-| Execute Unit tests and drop in fully emulated CI Environment | `pls ci:unit-test:debug`   |
-
-### Integration Test
-
-Execute all unit tests and generates the report for downstream CI to consume
-
-| Action                                                              | Command                           |
-| ------------------------------------------------------------------- | --------------------------------- |
-| Execute Integration tests locally                                   | `pls ci:integration-test`         |
-| Execute Integration tests in fully emulated CI Environment          | `pls ci:integration-test:emulate` |
-| Execute Integration tests and drop in fully emulated CI Environment | `pls ci:integration-test:debug`   |
-
-## Change action.yml
-
-The action.yml defines the inputs and output for your action.
-
-Update the action.yml with your name, description, inputs and outputs for your action.
-
-See the [documentation](https://help.github.com/en/articles/metadata-syntax-for-github-actions)
-
-## Change the Code
-
-Most toolkit and CI/CD operations involve async operations so the action is run in an async function.
-
-```javascript
-import * as core from "@actions/core";
-
-// ...
-
-async function run() {
-  try {
-    // ...
-  } catch (error) {
-    core.setFailed(error.message);
-  }
-}
-
-run();
+```yaml
+name: Docs
+url: https://link.to.docs.for/this-commit
+data:
+  type: "documentation"
 ```
 
-See the [toolkit documentation](https://github.com/actions/toolkit/blob/master/README.md#packages) for the various packages.
+#### Test Results
 
-## Publishing an action
+Stores the metadata for the test results:
 
-This repository has configured Semantic Releaser with conventional commits. By simply merging to the `main` branch, the action will automatically be released.
+```yaml
+name: Unit Test Result
+url: https://link.to.test_results/for/this-commit
+data:
+  type: "test-result"
+  pass: 200
+  skip: 3
+  fail: 0
+```
 
-# FAQ
+| Field  | Description                | Type     |
+| ------ | -------------------------- | -------- |
+| `pass` | How many tests passed      | `number` |
+| `skip` | How many tests was skipped | `number` |
+| `fail` | How many test failed       | `number` |
+
+#### Test Coverage
+
+Stores the metadata for the test coverages:
+
+```yaml
+name: Test Coverage
+url: https://link.to.test_coverage/for/this-commit
+data:
+  type: "test-coverage"
+  line: 100
+  statement: 99.2
+  branch: 85
+  function: 92.5
+```
+
+| Field       | Description        | Type     |
+| ----------- | ------------------ | -------- |
+| `line`      | Line Coverage      | `number` |
+| `statement` | Statement Coverage | `number` |
+| `branch`    | Branch Coverage    | `number` |
+| `function`  | Function Coverage  | `number` |
+
+#### Code Quality
+
+Stores the metadata for code quality:
+
+```yaml
+name: Code Quality
+url: https://link.to.code_quality/for/this-commit
+data:
+  type: "code-quality"
+  qualityRating: "A-"
+```
+
+| Field           | Description                        | Type     |
+| --------------- | ---------------------------------- | -------- |
+| `qualityRating` | Quality Rating in any custom scale | `string` |
+
+## History Entry Schema
+
+History Entry are how data are stored, per commit. Examples:
+
+```yaml
+sha: bab55d3830fe69833c9fecaa51fe2c829a7508f3
+url: https://github.com/curl/curl/tree/bab55d3830fe69833c9fecaa51fe2c829a7508f3
+action: https://github.com/curl/curl/actions/runs/4329236607/jobs/412431623
+items:
+  - name: Test Coverage
+    url: https://link.to.code.quality/for-this-comit
+    data:
+      type: "code-quality"
+      qualityRating: "A-"
+  - name: Unit Tests
+    url: https://unit-test/results
+    data:
+      type: "test-result"
+      pass: 200
+      skip: 3
+      fail: 0
+```
+
+| Field    | Description                                      | Type                       |
+| -------- | ------------------------------------------------ | -------------------------- |
+| `sha`    | SHA of the commit                                | `string`                   |
+| `url`    | URL to repository commit that produced this data | `string`                   |
+| `action` | Action URL that produced this data               | `string`                   |
+| `items`  | List of items to store with this commit          | [`Input[]`](#input-schema) |
+
+# Contributing
+
+To contribute, please look at [Contributing](./Contributing.md)
 
 # Author
 

@@ -4,7 +4,7 @@ author: "kirinnee"
 inputs:
   data:
     required: true
-    description: "Test Data to Persist"
+    description: "Test Data to Persist. Should be Array of [Input](#input-schema)"
     default: "[]"
   gist_id:
     required: true
@@ -21,7 +21,23 @@ inputs:
   url:
     required: false
     description: "Use this as the repository URL instead of auto-detection"
-
+outputs:
+  current:
+    description: >-
+      The current commit's history entry. Type of [HistoryEntry](#history-entry-schema)
+  before:
+    description: >-
+      The whole history of this PR, excluding this commit. Null if not a PR.
+      Type of [HistoryEntry](#history-entry-schema)
+  after:
+    description: >-
+      The whole history of this PR, including this commit. Null if not a PR.
+      Type of [HistoryEntry](#history-entry-schema)
+  base:
+    description: >-
+      The history entry of the a base commit of the PR.
+      Null if not PR or if base commit has nothing stored.
+      Type of [HistoryEntry](#history-entry-schema)
 runs:
   using: "node16"
   main: "dist/index.js"

@@ -7,10 +7,18 @@ tasks:
   default:
     desc: Run all enforcers
     cmds:
-      - task: exec:script
+      - task: exec-script
       - task: gitlint
+      - task: action-docs
 
-  exec:script:
+  action-docs:
+    desc: Ensure action's documentations are generated
+    cmds:
+      - task: util:pc
+        vars:
+          PC_ID: action-docs-enforce
+
+  exec-script:
     desc: Ensure all scripts are executable
     cmds:
       - task: util:pc

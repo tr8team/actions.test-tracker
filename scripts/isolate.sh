@@ -56,10 +56,10 @@ if [ "${script}" = '' ]; then
 	(docker exec -ti "${container_id}" sh) || true
 elif [ "${script}" = ':nix-shell:' ]; then
 	echo "🚪 Entering container..."
-	(docker exec -ti "${container_id}" nix-shell /workspace/nix/shells.nix -A ci) || true
+	(docker exec -ti "${container_id}" nix-shell /workspace/nix/shells.nix -A ci --pure) || true
 else
 	echo "🏃‍ Running script '${script}'..."
-	docker exec -t "${container_id}" nix-shell /workspace/nix/shells.nix -A ci --run "scripts/ci/${script}.sh"
+	docker exec -t "${container_id}" nix-shell /workspace/nix/shells.nix -A ci --pure --run "scripts/ci/${script}.sh"
 	if [ "${after}" = 'enter' ]; then
 		(docker exec -ti "${container_id}" sh) || true
 	fi
