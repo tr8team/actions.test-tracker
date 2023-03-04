@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+# test-random-comments
 env:
   ENABLE_PNPM_CACHE: "false"
 jobs:
