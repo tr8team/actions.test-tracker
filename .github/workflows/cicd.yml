@@ -12,6 +12,14 @@ jobs:
       - nix
       - ARM64
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Debug
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
       - name: Test Tracker
         id: tt
         uses: tr8team/test-tracker@v1.2.0
