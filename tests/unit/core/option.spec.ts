@@ -3,7 +3,7 @@ import { None, Opt, Option, Some } from "../../../src/lib/core/option.js";
 // @ts-ignore
 import helper from "../../helper.js";
 import { Err, Ok } from "../../../src/lib/core/result.js";
-import chaiAsPromised from "chai-as-promised";
+import * as chaiAsPromised from "chai-as-promised";
 
 should();
 chai.use(chaiAsPromised);
