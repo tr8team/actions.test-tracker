@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - feat/en/real-test
 env:
   ENABLE_PNPM_CACHE: "false"
 jobs:
@@ -22,7 +23,7 @@ jobs:
         run: echo "$GITHUB_CONTEXT"
       - name: Test Tracker
         id: tt
-        uses: tr8team/test-tracker@v1.2.0
+        uses: tr8team/test-tracker@v1.2.1
         with:
           data: |
             [
