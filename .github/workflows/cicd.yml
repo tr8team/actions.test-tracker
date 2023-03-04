@@ -13,7 +13,7 @@ jobs:
       - ARM64
     steps:
       - name: Test Tracker
-        uses: tr8team/test-tracker@v1.1.0
+        uses: tr8team/test-tracker@v1.2.0
         with:
           data: |
             [
