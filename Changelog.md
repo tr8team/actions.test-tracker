@@ -1,3 +1,10 @@
+## [1.1.0](https://github.com/tr8team/test-tracker/compare/v1.0.0...v1.1.0) (2023-03-04)
+
+
+### Features
+
+* added autodocumentation features ([4c65b57](https://github.com/tr8team/test-tracker/commit/4c65b57305beb0f6bdf24ec8ccc30e05246ba87e))
+
 ## 1.0.0 (2023-03-02)
 
 ### Features
