@@ -15,6 +15,8 @@ import { Validator } from "./lib/interface/validator.js";
 import { HistoryService, IHistoryService } from "./lib/service.js";
 import { ILogger } from "./lib/interface/logger.js";
 import { setFailed } from "@actions/core";
+import { stringToOption } from "./lib/util";
+import * as os from "os";
 
 async function main(): Promise<void> {
   const io: ActionIO = new GithubActionIO();
@@ -40,10 +42,16 @@ async function main(): Promise<void> {
     none: () => {
       log.info("✅ Successfully tracked commit artifact metadata");
     },
-    some: (err) => {
+    some: async (err) => {
       log.error("❌ Failed to track commit artifact metadata");
       setFailed(err);
-      log.error(err?.stack ?? "❌ No stacktrace found!");
+      const messages = await stringToOption(err?.stack).match({
+        none: ["❌ No stacktrace found!"],
+        some: (stacktrace) => stacktrace.split(os.EOL),
+      });
+      for (const m of messages) {
+        log.error(m);
+      }
     },
   });
 }

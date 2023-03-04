@@ -5,6 +5,7 @@
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "Node",
-    "esModuleInterop": false
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   }
 }
