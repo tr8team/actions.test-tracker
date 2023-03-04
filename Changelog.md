@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/tr8team/test-tracker/compare/v1.2.1...v1.2.2) (2023-03-04)
+
+
+### Bug Fixes
+
+* missing stacktrace during error reporting ([19771bb](https://github.com/tr8team/test-tracker/commit/19771bb188263be1975aed37d32dd5a37957d924))
+
 ## [1.2.1](https://github.com/tr8team/test-tracker/compare/v1.2.0...v1.2.1) (2023-03-04)
 
 
