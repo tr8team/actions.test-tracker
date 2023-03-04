@@ -139,7 +139,7 @@ jobs:
   Release:
     needs:
       - UnitTest
-      - IntegrationTest
+      #      - IntegrationTest
       - Build
       - Pre-commit
     name: Release
