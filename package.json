@@ -2,9 +2,8 @@
   "name": "github-action-test-tracker",
   "version": "0.0.0",
   "private": true,
-  "type": "module",
   "description": "GitHub action to track test results and metadata in Pull Requests",
-  "main": "lib/main.js",
+  "main": "lib/commonjs/main.js",
   "scripts": {
     "build": "tsc",
     "package": "ncc build --source-map --license licenses.txt"
