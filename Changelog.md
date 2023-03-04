@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/tr8team/test-tracker/compare/v1.2.2...v1.2.3) (2023-03-04)
+
+
+### Bug Fixes
+
+* incorrect test due to no synthetical imports ([5b277bc](https://github.com/tr8team/test-tracker/commit/5b277bc46ae4ae7f8e95f8c404b3743419870fe9))
+
 ## [1.2.2](https://github.com/tr8team/test-tracker/compare/v1.2.1...v1.2.2) (2023-03-04)
 
 
