@@ -1,3 +1,10 @@
+## [1.3.0](https://github.com/tr8team/test-tracker/compare/v1.2.3...v1.3.0) (2023-03-04)
+
+
+### Features
+
+* improve stacktrace ([98a76fd](https://github.com/tr8team/test-tracker/commit/98a76fd71849c4bb694e89a73b021a08aa74a3a3))
+
 ## [1.2.3](https://github.com/tr8team/test-tracker/compare/v1.2.2...v1.2.3) (2023-03-04)
 
 
