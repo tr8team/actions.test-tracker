@@ -44,7 +44,7 @@ describe("ContextRetriever", function(){
             "meta": {}
           },
           {
-            "content": "actionUrl: https://github.com/tr8team/gotrade-infra/actions/runs/4299735091/jobs/7495247945",
+            "content": "actionUrl: https://github.com/tr8team/gotrade-infra/actions/runs/4299735091",
             "meta": {}
           },
           {
@@ -66,9 +66,9 @@ describe("ContextRetriever", function(){
         relativePath: [...actionScripts, "context", "pull_request_event.ts"],
         context: {
           payloadPath: path.resolve(__dirname,"artifacts","context","pr.json"),
-          sha: "20e24015d82529c1889f5bed09adc69e51084392",
+          sha: "5554225d82529c18ccf5bee09adc69e33084392",
           ref: "main",
-          job: "7495247945",
+          job: "Sample",
           runId: "4299735091",
           runNumber: "1",
           action: "ci/cd",
@@ -108,7 +108,7 @@ describe("ContextRetriever", function(){
             "meta": {}
           },
           {
-            "content": "actionUrl: https://github.com/tr8team/gotrade-infra/actions/runs/5589247332/jobs/9928135228",
+            "content": "actionUrl: https://github.com/tr8team/gotrade-infra/actions/runs/5589247332",
             "meta": {}
           },
           {
@@ -130,9 +130,9 @@ describe("ContextRetriever", function(){
         relativePath: [...actionScripts, "context", "push_event.ts"],
         context: {
           payloadPath: path.resolve(__dirname,"artifacts","context","push.json"),
-          sha: "dbadac870fad109420daf488c02646b945683e2e",
+          sha: "daf488c02646b945683e2edbadac870fad109420",
           ref: "refs/heads/main",
-          job: "9928135228",
+          job: "Sample",
           runId: "5589247332",
           runNumber: "1",
           action: "ci/cd",
@@ -165,7 +165,7 @@ describe("ContextRetriever", function(){
             "meta": {}
           },
           {
-            "content": "actionUrl: https://github.com/tr8team/harbor/actions/runs/9920178/jobs/7723091",
+            "content": "actionUrl: https://github.com/tr8team/harbor/actions/runs/9920178",
             "meta": {}
           },
           {
@@ -188,7 +188,7 @@ describe("ContextRetriever", function(){
           payloadPath: path.resolve(__dirname,"artifacts","context","other.json"),
           sha: "20e24015d82529c1889f5bed09adc69e51084392",
           ref: "refs/heads/main",
-          job: "7723091",
+          job: "Sample",
           runId: "9920178",
           runNumber: "1",
           action: "ci/cd",
