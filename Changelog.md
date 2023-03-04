@@ -1,3 +1,11 @@
+## [1.2.1](https://github.com/tr8team/test-tracker/compare/v1.2.0...v1.2.1) (2023-03-04)
+
+
+### Bug Fixes
+
+* incorrect job id ([464eea3](https://github.com/tr8team/test-tracker/commit/464eea3c86022627031ac4ad17aa9865c1fbece5))
+* incorrect value from GITHUB_SHA ([73d6b73](https://github.com/tr8team/test-tracker/commit/73d6b732b2a2c5dddad631bb5c86dc543976b085))
+
 ## [1.2.0](https://github.com/tr8team/test-tracker/compare/v1.1.0...v1.2.0) (2023-03-04)
 
 
