@@ -66,9 +66,7 @@ class GithubActionContextRetriever implements ContextRetriever {
   }
 
   get actionUrl(): string {
-    return `${this.baseUrl}/actions/runs/${this.#context.runId}/jobs/${
-      this.#context.job
-    }`;
+    return `${this.baseUrl}/actions/runs/${this.#context.runId}`;
   }
 
   get repoUrl(): string {
