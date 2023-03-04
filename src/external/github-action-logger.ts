@@ -14,11 +14,11 @@ class GithubActionLogger implements ILogger {
     core.info(message);
   }
 
-  notice(message: string): void {
+  notice(message: string | Error): void {
     core.notice(message);
   }
 
-  warning(message: string): void {
+  warning(message: string | Error): void {
     core.warning(message);
   }
 }

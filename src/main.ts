@@ -43,6 +43,7 @@ async function main(): Promise<void> {
     some: (err) => {
       log.error("❌ Failed to track commit artifact metadata");
       setFailed(err);
+      log.error(err?.stack ?? "❌ No stacktrace found!");
     },
   });
 }
