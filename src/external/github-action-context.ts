@@ -10,6 +10,7 @@ import { Context } from "@actions/github/lib/context";
 
 class GithubActionContextRetriever implements ContextRetriever {
   #context: Context;
+
   constructor() {
     this.#context = new Context();
   }
@@ -47,7 +48,15 @@ class GithubActionContextRetriever implements ContextRetriever {
   }
 
   get sha(): string {
-    return this.#context.sha;
+    if (this.#context.eventName === "push") {
+      const event = this.#context.payload as PushEvent;
+      return event.after;
+    } else if (this.#context.eventName === "pull_request") {
+      const event = this.#context.payload as PullRequestEvent;
+      return event.pull_request.head.sha;
+    } else {
+      return this.#context.sha;
+    }
   }
 
   get baseUrl(): string {
@@ -57,9 +66,7 @@ class GithubActionContextRetriever implements ContextRetriever {
   }
 
   get actionUrl(): string {
-    return `${this.baseUrl}/actions/runs/${this.#context.runId}/jobs/${
-      this.#context.job
-    }`;
+    return `${this.baseUrl}/actions/runs/${this.#context.runId}`;
   }
 
   get repoUrl(): string {

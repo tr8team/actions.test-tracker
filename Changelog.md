@@ -1,3 +1,10 @@
+## [1.2.0](https://github.com/tr8team/test-tracker/compare/v1.1.0...v1.2.0) (2023-03-04)
+
+
+### Features
+
+* migrate to cjs ([5170ffb](https://github.com/tr8team/test-tracker/commit/5170ffb284197bda492826ad061e48c04046b43b))
+
 ## [1.1.0](https://github.com/tr8team/test-tracker/compare/v1.0.0...v1.1.0) (2023-03-04)
 
 
