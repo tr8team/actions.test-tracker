@@ -15,7 +15,7 @@ tasks:
     deps: [clean]
     cmds:
       - tsc
-      - ncc build --source-map --license licenses.txt
+      - ncc build -s --target es2021 --license licenses.txt
   clean:
     desc: Clean Artifacts
     cmds:
